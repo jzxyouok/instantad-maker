@@ -56,14 +56,22 @@
 </template>
 
 <script>
-import page_panel from './components/page_panel'
-import thumbpage_panel from './components/thumbpage_panel'
-import property_panel from './components/property_panel'
+import propertyPanel from 'components/property_panel';
+
 export default {
-	data: function () {
+	data: function() {
 		return {
 
 		}
+	},
+	mounted: function() {
+		console.log('app.vue');
+	},
+	created: function() {
+		console.log('app.vue created');
+	},
+	components: {
+		propertyPanel
 	}
 }
 </script>
