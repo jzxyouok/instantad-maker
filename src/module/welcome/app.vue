@@ -1,72 +1,161 @@
-<template lang="html">
-	<div class="wrapper">
-        <div class="header">
-            <div class="logo">
-                InstantAD_v0.1.0 <br> alpha
-            </div>
-            <div class="operation">
-                <div>
-                    <button id="save" class="btn small" style="display:none;">保存</button>
-                    <button id="downloadzip" class="btn small">zip下载</button>
-                    <button id="publish" class="btn small">在线预览</button>
-                    <button id="setting" class="setting btn"></button>
-                </div>
-            </div>
-            <div class="login"></div>
-        </div>
-        <div class="middle">
-            <div class="leftside">
-                <div class="tabs">
-                    <div class="tab current" data-tab="tabpage">
-                        <span>页面</span>
-                    </div>
-                    <div class="tab tabproj" data-tab="tabproj">
-                        <span>项目列表</span>
-					</div>
-                </div>
-                <div class="tab-content current" id="thumb_panel" data-tab="tabpage">
-                </div>
-                <div class="tab-content" data-tab="tabproj">
-					<div id="proj_panel"></div>
-				</div>
-            </div>
-            <div class="uploadfile_wrapper">
-                <input type="file" id="upload-file-image" class="uploadfile" accept="image/gif, image/jpeg,image/png">
-                <input type="file" id="upload-file-video" class="uploadfile" accept="video/mp4">
-            </div>
-            <div class="content" id="content">
-                <div>页面编辑</div>
-                <div id="editpage_panel"></div>
-            </div>
-            <div class="rightside">
-                <div id="property">
-                    <!-- 属性栏面板-->
-                    <property-panel :item_data=item_data :options=options :seen=true></property-panel>
-                </div>
-            </div>
-        </div>
-        <div class="footer">
-        </div>
-    </div>
-	<div id="proj_setting_wrapper" class="panel setting_panel">
-		<div id="proj_setting"></div>
-	</div>
-	<div id="qrcode" class="setting_panel" style="width:160px;height:160px;">
-	</div>
+<template>
+<div>
+
+<module-head title="组件 header"></module-head>	
+
+<div>
+	<ul class="listbox">
+		<li v-for="el in list">
+		  <span>
+			{{el}}
+		  </span>
+		</li>
+	</ul>
+</div>
+
+<div class="icon_lists ">
+
+	<ul>
+	 <li>
+                <i class="icon iconfont">&#xe600;</i>
+                    <div class="name">微信</div>
+                    <div class="code">&amp;#xe600;</div>
+                    <div class="fontclass">.weixin</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont">&#xe6df;</i>
+                    <div class="name">下载</div>
+                    <div class="code">&amp;#xe6df;</div>
+                    <div class="fontclass">.xiazai</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont">&#xe6d2;</i>
+                    <div class="name">购物车</div>
+                    <div class="code">&amp;#xe6d2;</div>
+                    <div class="fontclass">.gouwuche</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont">&#xe601;</i>
+                    <div class="name">round_check</div>
+                    <div class="code">&amp;#xe601;</div>
+                    <div class="fontclass">.roundcheck</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont">&#xe602;</i>
+                    <div class="name">round_close_fill</div>
+                    <div class="code">&amp;#xe602;</div>
+                    <div class="fontclass">.roundclosefill</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont">&#xe603;</i>
+                    <div class="name">round_close</div>
+                    <div class="code">&amp;#xe603;</div>
+                    <div class="fontclass">.roundclose</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont">&#xe604;</i>
+                    <div class="name">round_right_fill</div>
+                    <div class="code">&amp;#xe604;</div>
+                    <div class="fontclass">.roundrightfill</div>
+                </li>
+            
+		
+	</ul>
+
+</div>
+
+</div>
+
 </template>
 
 <script>
-import page_panel from './components/page_panel'
-import thumbpage_panel from './components/thumbpage_panel'
-import property_panel from './components/property_panel'
-export default {
-	data: function () {
-		return {
 
-		}
-	}
+import Lib from 'assets/Lib.js'
+
+import moduleHead from 'components/module-head'
+
+export default {
+  data() {
+    return {
+		list:[0,1,2,3,4,5,6]	
+    }
+  },
+  components: {
+	moduleHead
+  },
+  ready(){
+  	
+  	
+  },
+  methods: {
+
+	
+  
+  }  
 }
 </script>
 
-<style lang="css">
+<style scoped>
+
+.listbox{
+	overflow:hidden;
+	margin-top:50px;
+}
+
+.listbox li{
+float:left;
+width:25%;
+text-align:center;
+height:50px;
+line-height:50px;
+}
+
+.listbox li span{
+border:1px solid #04BE02;
+border-radius:5px;
+background:#fff;
+padding:10px;
+
+}
+
+
+.icon_lists{
+margin:25px 0 0 0;
+overflow:hidden;
+background:#fff;
+
+}
+
+.icon_lists li{
+  float:left;
+ 
+	width:33.33333333%;
+ 
+  text-align: center;
+}
+.icon_lists .icon{
+  font-size: 42px;
+  line-height: 100px;
+  margin: 10px 0;
+  color:#04BE02;
+  -webkit-transition: font-size 0.25s ease-out 0s;
+  -moz-transition: font-size 0.25s ease-out 0s;
+  transition: font-size 0.25s ease-out 0s;
+
+}
+.icon_lists .icon:hover{
+  font-size: 100px;
+}
+
 </style>
+
+
+
+
+
