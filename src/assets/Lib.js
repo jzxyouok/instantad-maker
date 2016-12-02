@@ -1,6 +1,6 @@
 
 import 'assets/css.css';
-import 'assets/style.css';
+import 'assets/style-index.less';
 import C from 'assets/conf';
 import M from 'assets/common';
 import _ from 'lodash';

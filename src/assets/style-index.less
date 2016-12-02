@@ -1,0 +1,363 @@
+/* Import Less files */
+@import 'lib-mixins';
+@import "lib-reset";
+//
+// /* Import lib-rem.less if supportREM opened. */
+@import "lib-rem";
+
+@header_h:60px;
+@footer_h:  0;
+
+@background: #ccddff;
+@font_color: #4d7f40;
+html,body {
+  background:#fcfcfc;
+  height:100%;
+}
+
+
+.wrapper {height:100%;overflow:hidden;}
+//顶部样式
+.header {
+  height:@header_h;
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  background: #ccccfc;
+  .logo {
+    width:200px;
+    height:100%;
+    background:#ccccfc;
+    display:inline-block;
+    font-size:18px;
+    font-family: monospace;
+    color:@font_color;
+  }
+  .operation {
+    position: absolute;
+    left:200px;
+    top:0;
+    right:200px;
+    height:@header_h;
+    text-align: center;
+    div {
+        margin:0 auto;
+        height:@header_h;
+        line-height: @header_h;
+        button {
+          line-height: 18px;
+        }
+    }
+    .setting {
+      width:36px;
+      height:36px;
+      display: inline-block;
+      background-size:contain;
+      border:0;
+      background-color:transparent;
+    //   background-image: url('../img/setting.png');
+      cursor: pointer;
+    }
+  }
+  .login {
+    background:#ccccfc;
+    width:200px;
+    height:@header_h;
+    position:absolute;
+    right:0;
+    top:0;
+  }
+}
+
+
+.footer {
+  position: fixed;
+  width:100%;
+  bottom:0;
+  height:@footer_h;
+  background: #fafcfa;
+}
+
+.middle {
+  position:absolute;
+  left:0;right:0;top:@header_h;bottom:0;
+  background:#fcfcfc;
+  overflow: hidden;
+  .leftside {
+    position:absolute;left:0;bottom:0;top:0;
+    width:200px;
+    // background:darken(@background, 10%);
+  }
+  .rightside {
+    position:absolute;
+    right:0;
+    top:0;
+    width:200px;
+    background: lighten(@background, 10%);
+    bottom:0;
+    overflow: auto;
+    #property {
+      margin:4px;
+      .preview {
+        margin-top:4px;
+        display:block;
+      }
+      div {
+        margin:4px 0;
+      }
+    }
+  }
+  @bg:#cacaca;
+  .content {
+    position:absolute;
+    left:200px;
+    right:200px;
+    top:0;
+    bottom:@footer_h;
+    background:#ddd;
+    overflow: hidden;
+    .operate {
+      transition: top 0.5s,opacity 0.5s;
+      width:150px;
+      height:50px;
+      border-radius: 20px;
+      background: #ffffff;
+      line-height: 50px;
+      position:absolute;z-index:101;
+      left:0;
+      top:0;
+      bottom:0;right:0;
+      margin: auto;
+      &:active {
+        color:#fff;
+        background:#000;
+      }
+      .addcomponent , .addfile{
+        text-align: center;
+        cursor:pointer;
+        width:30px;
+        height:30px;
+        background:@bg;
+        display:inline-block;
+        line-height:30px;
+        font-size:20px;
+        margin-right:10px;
+        color:#fff;
+      }
+    }
+    .editpage {
+      &.current {
+        display: block;
+        background-color: #fcfcfc;
+        &:hover {
+          background-color: @bg;
+        }
+      }
+      .slider_wrapper {
+        height:20px;
+        background:transparent;
+        position:absolute;left:100px;right:100px;bottom:20px;
+        .slide_point {
+          &.current {
+            background: #aaa;
+          }
+          display: inline-block;
+          width:14px;
+          margin-left:4px;
+          height:14px;
+          border-radius: 50%;
+          background:#fff;
+        }
+
+      }
+      cursor: pointer;
+      transition:background-color 0.5s;
+      background-color: #adadad;
+      width:375px;
+      // transform:scale(0.75,0.75);
+      height:667px;
+      margin:10px auto;
+      text-align: center;
+      outline: 1px dashed #a0a0a0;
+      position:relative;
+    }
+  }
+
+}
+
+.addcomponent , .addfile{
+  text-align: center;
+  cursor:pointer;
+  width:50px;
+  height:50px;
+  background:#c0c;
+  display:inline-block;
+  line-height:50px;
+  font-size:25px;
+  color:#fff;
+}
+
+
+
+.tabs .tab.current{
+  display:block;
+  background:lighten(@background, 5%);
+  span {
+    color:#333;
+  }
+}
+
+.tabs .tab {
+  width:100%;
+  float:left;
+  text-align:center;
+  // padding:4px;
+  background:#fff;
+  border-bottom:1px solid #ccc;
+  cursor:pointer;
+  span {
+    display:inline-block;
+    margin:4px 0;
+  }
+}
+.tab-content {
+  width:100%;
+  text-align:center;
+  margin:0 auto;
+  overflow:scroll;
+  position:absolute;
+  top:25px;
+  bottom:0;
+  left:0;
+}
+
+
+
+.uploadfile {
+  border:2px dashed #ccdddd;
+  height:30px;
+  display: none;
+  background:#fff;
+
+}
+
+
+.component {
+  overflow:hidden;
+  background:#fff;
+  position: relative;
+}
+
+.preview {
+  width:100%;
+}
+
+
+
+//缩略图样式
+.scalepage_wrapper {
+  &.current {
+    background:#f00000;
+  }
+  overflow: hidden;
+  cursor: pointer;
+  width:180px;
+  height:160px;
+  margin:30px auto 0;
+  text-align: center;
+  line-height: 1px;
+  background:#fff;
+  position: relative;
+  span {
+    display:inline-block;
+    line-height: 20px;
+    position: absolute;
+    color:#3c3c3c;
+    border:1px solid #fff;
+    background:#fafafc;
+    left:4px;top:4px;
+    border-radius: 2px;
+    width:20px;height:20px;
+  }
+  .scalepage {
+    margin:auto;
+    width:90px;
+    height:160px;
+    background:lighten(@background, 5%);
+    .operate {display:none;}
+  }
+  &:hover {
+    .delete {
+      display:block;
+      position:absolute;
+      top:4px;right:4px;
+    }
+  }
+  .delete {
+    display:none;
+  }
+
+}
+
+
+.addpage {
+  margin:15px auto 0;
+  width:180px;
+  height:40px;
+  line-height: 40px;color:#1f1f1f;
+  font-weight: bold;
+  cursor: pointer;
+  background:lighten(@background, 0%);
+}
+
+.close {
+    width:20px;
+    height:20px;
+    border-radius:10px;
+    background:#30a030;
+    position:absolute;right:4px;top:4px;
+    text-align: center;
+    font-size:14px;
+    line-height: 20px;
+    font-weight: bold;
+    color:#fff;
+    cursor: pointer;
+}
+
+#setting_panel {
+  &.active {
+    display:block;
+  }
+  position: absolute;
+  left:0;
+  bottom:0;
+  right:0;
+  top:0;
+  background:#eeeefe;
+  opacity:1;
+  width:800px;
+  height:600px;
+  margin:auto;
+  border:2px solid #fff;
+  display:none;
+  z-index: 10001;
+}
+
+.btn {
+  width:150px;
+  height:50px;
+  border-radius: 20px;
+  background: #fff;
+  border:0;
+  &:hover {
+    background:#aaf4aa;
+  }
+  line-height: 50px;
+  &.small {
+    width:90px;
+    height:30px;
+    border-radius: 12px;
+    line-height: 30px;
+  }
+}
