@@ -8,7 +8,7 @@
     <div>按钮背景色：<input type="text" v-model=itemData.btnBgColorTheme /></div>
     <div>跳转地址：<input type="text" v-model=itemData.btnJumpUrl /></div>
   </div>
-  <instantad-button :item_data=item_data :preview=true v-if="itemData.type=='21'"></instantad-button>
+  <instantad-button :item-data=itemData :preview=true v-if="itemData.type=='21'"></instantad-button>
   <instantad-video ref="property_video" :item-data=itemData :preview=true property=1 v-if="itemData.type=='62'"></instantad-video>
   <div v-if="itemData.type=='62'">
     <div>面包vid:<input type="text" v-model=itemData.videoVid /></div>

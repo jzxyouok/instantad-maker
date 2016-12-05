@@ -3,37 +3,38 @@
 </template>
 
 <script>
+import Lib from 'assets/Lib'
 export default {
   data: function() {
       // console.log(this.item_data);
       return {
           styleObject: {
-              width: this.preview ? '100%' : this.item_data.imageWidth +
+              width: this.preview ? '100%' : this.itemData.imageWidth +
                   'px',
-              height: this.preview ? 'auto' : this.item_data.imageHeight +
+              height: this.preview ? 'auto' : this.itemData.imageHeight +
                   'px'
           }
       };
   },
   computed: {
       pureImageUrl: function() {
-          return this.item_data.localfile ||
-              (Component.basepath + this.item_data.pureImageUrl);
+          return this.itemData.localfile ||
+              (Lib.C.basepath + this.itemData.pureImageUrl);
       }
   },
   methods: {
       selectFocus: function() {
           // alert(1);
-          this.$emit('selectFocus', this.item_data.id);
+          this.$emit('selectitem', this.itemData.id);
       },
       load: function(evt) {
-          var rect = $(evt.target)[0].getBoundingClientRect();
+          var rect = Lib.$(evt.target)[0].getBoundingClientRect();
           // console.log(rect.height);
-          this.$emit('imageload', this.item_data.id, rect.width,
+          this.$emit('imageload', this.itemData.id, rect.width,
               rect.height);
       }
   },
-  props: ['item_data', 'preview']
+  props: ['itemData', 'preview']
 }
 </script>
 
