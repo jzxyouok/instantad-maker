@@ -131,6 +131,7 @@ export default {
 		//初始化上传组件
 		Lib.$('#upload-file-image').on('change', function(evt) {
 			var file = evt.target.files[0];
+			var upinput = Lib.$(evt.target);
 			// var compEl = $('#' + globalData.cur_compId);
 			if (file) {
 				console.log(file);
@@ -157,7 +158,7 @@ export default {
 							localfile: src,
 							type: '41'
 						});
-						if (self.$data.global_config.cur_item.type==='101') {
+						if (self.$data.global_config.cur_item && self.$data.global_config.cur_item.type==='101') {
 						    if(item_data.type === '41') {
 						      self.addItem(item_data, self.$data.global_config.cur_item.id);
 						    }
@@ -168,8 +169,13 @@ export default {
 							self.addItem(item_data);
 						// this.$emit('addItem', item_data);
 						}
+						// upinput.file = '';
+						// console.log(upinput);
+						// $(upinput).val('');
+						upinput.replaceWith(upinput.val('').clone(true));
 						// UploadManager.upload(file, arg);
 					}
+
 				}
 			}
 		});
@@ -269,15 +275,19 @@ export default {
 		},
 		getItem: function(item_id) {
 			var data = this.$data.proj_data.adCanvasInfo.PageList.Page;
+			var ret = null;
 			for (var i = 0; i < data.length; i++) {
 				var cur_page_data = data[i].componentItemList.componentItem;
 				// console.log(cur_page_data);
-				var ret = Lib._.filter(cur_page_data, function(val, key) {
-					// console.log(val.id === item_id);
+				ret = Lib._.filter(cur_page_data, function(val, key) {
+					console.log(val.id === item_id);
 					return val.id === item_id;
 				});
-				return ret[0];
+				// console.log(ret);
 			}
+			if(ret) {
+				return ret[0];
+			} return ret;
 		},
 		replaceItem:function(item_id,item_data) {
 			var data = this.$data.proj_data.adCanvasInfo.PageList.Page;
@@ -297,9 +307,10 @@ export default {
 			}
 		},
 		propertyChange: function(item_id, width, height) {
+			console.log(item_id);
 			var item_data = this.getItem(item_id);
 			console.log(item_data);
-			if (item_data.type === '41') {
+			if (item_data && item_data.type === '41') {
 				item_data.imageWidth = width * 2;
 				item_data.imageHeight = height * 2;
 			}
@@ -317,11 +328,13 @@ export default {
 		selectItem: function(item_id) {
 			// alert(item_id);
 			var data = this.getItem(item_id);
-			// console.log(data);
-			this.$data.global_config.cur_item = data;
-			this.$data.global_config.options = Lib._.pick(Lib.C.items, Lib.C
-					.availChangeList[
-							data.type])
+			if(data) {
+				console.log(data);
+				this.$data.global_config.cur_item = data;
+				this.$data.global_config.options = Lib._.pick(Lib.C.items, Lib.C
+						.availChangeList[
+								data.type])
+			}
 		}
 	}
 
