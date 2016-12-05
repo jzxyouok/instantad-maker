@@ -1,6 +1,6 @@
 <template lang="html">
-  <div v-show="isShow">111<select @change="transformComp" >
-  <option v-for="(value,key) in options" :value=key :selected="type==key">{{value}}</option>
+  <div v-show="isShow"><select @change="transformComp" >
+  <option v-for="(index,value) in options" :value=index :selected="type==index">{{value}}</option>
   </select></div>
 </template>
 
@@ -19,10 +19,10 @@ export default {
   methods: {
     transformComp: function(evt) {
       // console.log('from change');
-      var val = $(evt.target)
+      var val = Lib.$(evt.target)
         .val();
       // console.log(val);
-      this.$emit('transformComp', val);
+      this.$emit('transformcomp', val);
     }
   }
 }

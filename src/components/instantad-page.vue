@@ -4,24 +4,24 @@
   <template v-for="item in pageData.componentItemList.componentItem">
   <template v-if="item.type=='41'">
   <div style="position:relative;line-height:1px;">
-    <instantad-image :item_data=item :preview=true v-on:imageload="imageload" v-on:selectFocus="selectItem"></instantad-image>
+    <instantad-image :item-data=item :preview=true v-on:imageload="imageload" v-on:selectitem="selectItem"></instantad-image>
   <div v-show="!isThumb" class="close" @click="deleteItem(item.id)">X</div></div>
   </template>
   <template v-if="item.type=='21'">
 <div style="position:relative;line-height:1px;">
-  <instantad-button :item_data=item :preview=true v-on:imageload="imageload" v-on:selectFocus="selectItem"></instantad-button>
+  <instantad-button :item-data=item :preview=true v-on:imageload="imageload" v-on:selectitem="selectItem"></instantad-button>
   <div v-show="!isThumb" class="close" @click="deleteItem(item.id)">X</div>
 </div>
 </template>
   <template v-if="item.type=='62'">
 <div style="position:relative;line-height:1px;">
-  <instantad-video :item_data=item :preview=true v-on:imageload="imageload" v-on:selectFocus="selectItem"></instantad-video>
+  <instantad-video :item-data=item :preview=true v-on:imageload="imageload" v-on:selectitem="selectItem"></instantad-video>
   <div v-show="!isThumb" class="close" @click="deleteItem(item.id)">X</div>
 </div>
 </template>
   <template v-if="item.type=='101'">
 <div style="position:relative;line-height:1px;">
-  <instantad-slider :item_data=item :preview=true v-on:imageload="imageload" :isThumb=isThumb v-on:selectFocus="selectItem"></instantad-slider>
+  <instantad-slider :item-data=item :preview=true v-on:imageload="imageload" :is-thumb=isThumb v-on:selectitem="selectItem"></instantad-slider>
   <div v-show="!isThumb" class="close" @click="deleteItem(item.id)">X</div>
 </div>
 </template>
@@ -68,10 +68,12 @@ export default {
     },
     selectItem: function(item_id) {
       // alert(item_id);
-      this.tellDataManager(item_id);
+      // this.tellDataManager(item_id);
+      this.$emit('selectitem',item_id);
     },
     deleteItem: function(item_id) {
-      DataManager.removeItem(item_id);
+      // DataManager.removeItem(item_id);
+      this.$emit('deleteitem',item_id);
     },
     //图片加载好
     imageload: function(item_id, width, height) {

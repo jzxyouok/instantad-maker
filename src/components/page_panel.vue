@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
       <div class="editpage" v-bind:class="{current:curPage==index}" v-for="(index,value) in pageList">
-        <instantad-page :is-thumb=false :page-data=value v-on:caltop="caltop" v-on:imageload="imageLoad"></instantad-page>
+        <instantad-page :is-thumb=false :page-data=value v-on:caltop="caltop" v-on:imageload="imageLoad" v-on:selectitem="selectItem" v-on:deleteitem="deleteItem"></instantad-page>
         <div class="operate" @click="uploadImage" v-bind:style="styleObject">
           <span class="addcomponent">+</span>添加组件
           <div style="display:inline-block;position:absolute;" @mouseover="showExtend" @mouseout="hideExtend">
@@ -113,6 +113,12 @@ export default {
     imageLoad:function(id,width,height) {
       console.log(id,width,height);
       this.$emit('propertychange',id,width,height);
+    },
+    selectItem:function(id) {
+      this.$emit('selectitem',id);
+    },
+    deleteItem:function(id) {
+      this.$emit('deleteitem',id);
     }
   }
 }

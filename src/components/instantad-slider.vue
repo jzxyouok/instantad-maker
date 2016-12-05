@@ -1,10 +1,10 @@
 <template>
   <div style="position:relative;">
-    <div v-show="property" v-for="(value,key) in items">
-    <instantad-image :item_data=value.componentItem :preview=true></instantad-image>
+    <div v-show="property" v-for="(index,value) in items">
+    <instantad-image :item-data="value.componentItem" :preview=true></instantad-image>
     </div>
     <div v-show="!property">
-    <instantad-image :item_data=items[0].componentItem :preview=true v-on:selectFocus="selectItem"></instantad-image>
+    <instantad-image :item-data="items[0].componentItem" :preview=true v-on:selectFocus="selectItem"></instantad-image>
     </div>
     <div v-show="!isThumb" class="slider_wrapper">
       <span class="slide_point current"></span><span class="slide_point"></span>
@@ -28,12 +28,12 @@ module.exports = {
   data: function() {
     // console.log(this.item_data);
     return {
-      items: this.item_data.componentGroupList.componentGroup,
-      pureImageUrl: Component.basepath + this.item_data.pureImageUrl,
+      items: this.itemData.componentGroupList.componentGroup,
+      pureImageUrl: Lib.C.basepath + this.itemData.pureImageUrl,
       styleObject: {
-        width: this.preview ? '100%' : this.item_data.imageWidth +
+        width: this.preview ? '100%' : this.itemData.imageWidth +
           'px',
-        height: this.preview ? 'auto' : this.item_data.imageHeight +
+        height: this.preview ? 'auto' : this.itemData.imageHeight +
           'px'
       },
       show: false
@@ -41,20 +41,20 @@ module.exports = {
   },
   methods: {
     tellDataManager: function(item_id, data) {
-      DataManager.setCurrItem(item_id, data);
+      // DataManager.setCurrItem(item_id, data);
     },
     selectItem: function(item_id) {
       // console.log(item_id);
       this.tellDataManager(item_id);
     },
     uploadfile: function() {
-      console.log(this.item_data.id);
-      globalData.upload_id = this.item_data.id;
+      console.log(this.itemData.id);
+      globalData.upload_id = this.itemData.id;
       $('#upload-file-image')
         .trigger('click');
     }
   },
-  props: ['item_data', 'preview', 'isThumb', 'property'],
+  props: ['itemData', 'preview', 'isThumb', 'property'],
 }
 </script>
 
