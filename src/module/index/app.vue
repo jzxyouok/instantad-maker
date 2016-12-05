@@ -24,8 +24,8 @@
 									<div class="tab current" data-tab="tabpage">
 											<span>页面</span>
 									</div>
-									<div class="tab tabproj" data-tab="tabproj">
-											<span>项目列表</span></div>
+									<!-- <div class="tab tabproj" data-tab="tabproj">
+											<span>项目列表</span></div> -->
 							</div>
 							<div class="tab-content current" id="thumb_panel" data-tab="tabpage">
 <thumbpage-panel :page-list=proj_data.adCanvasInfo.PageList.Page></thumbpage-panel>
