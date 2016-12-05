@@ -46,7 +46,7 @@ export default {
           _.delay(function() {
               if(self.$el) {
                 var rect = self.$el.getBoundingClientRect();
-                // console.log(rect.height);
+                console.log(rect.height);
                 self.$emit('videoload', self.itemData.id, rect
                     .width,
                     rect.height);
@@ -55,7 +55,7 @@ export default {
           if(this.itemData.localfile) {
             return this.itemData.localfile;
           }
-          if(this.itemData.videoUrl.indexOf('http')===0) {
+          if(this.itemData.videoUrl && this.itemData.videoUrl.indexOf('http')===0) {
             return this.itemData.videoUrl;
           }
           return Lib.C.basepath + this.itemData.videoUrl;

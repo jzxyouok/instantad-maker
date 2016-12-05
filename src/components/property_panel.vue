@@ -131,11 +131,14 @@ export default {
         success:function(ret) {
           // console.log(ret);
           if(!ret.msg) {
-            var item_data = Lib.$.extend(self.itemData,{
-              videoUrl:ret['url']
-            });
-            console.log(item_data);
-            self.$emit('itemchange',self.itemData.id,item_data);
+            if(ret.url) {
+              var item_data = Lib.$.extend(self.itemData,{
+                videoUrl:ret['url']
+              });
+              // console.log(item_data);
+              //TODO:转换不成功的提示
+              self.$emit('itemchange',self.itemData.id,item_data);
+            }
           }
         }
       });
