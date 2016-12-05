@@ -88,6 +88,7 @@ export default {
 			global_config: {
 				cur_page: 0,
 				cur_item: {},
+				user:'',
 				options: {}
 			},
 			proj_data: {
@@ -172,6 +173,7 @@ export default {
 						// console.log(upinput);
 						// $(upinput).val('');
 						upinput.replaceWith(upinput.val('').clone(true));
+						Lib.UploadManager.upload(file, arg,self.$data.global_config.user);
 						// UploadManager.upload(file, arg);
 					}
 
@@ -214,12 +216,30 @@ export default {
 								self.replaceItem(self.$data.global_config.cur_item.id,item_data);
 						}
 						upinput.replaceWith(upinput.val('').clone(true));
+						Lib.UploadManager.upload(file, arg,self.$data.global_config.user);
 		        // UploadManager.upload(file, arg);
 		      }
 
 		    }
 		  }
 		});
+		Lib.$.ajax({
+			url: '/api/userinfo',
+			type: 'get',
+			success: function(ret) {
+				if (ret.user) {
+					this.$data.global_config.user = ret.user;
+				} else {
+					if (ret.err == 1) {
+						window.location.href = 'http://passport.oa.com/modules/passport/signin.ashx?url=' + encodeURIComponent('http://x.addev.com/instantad/');
+					}
+				}
+			},
+			failed: function() {
+				alert('Get UserInfo Error');
+			}
+		});
+		this.$data.global_config.user = 'jackyqi';
 	},
 	methods: {
 		addPage: function() {
@@ -296,7 +316,30 @@ export default {
 				});
 				return ret;
 			}
-			console.log(JSON.stringify(fetchData(this.$data.proj_data)));
+			var form_data = new FormData();
+			form_data.append('action', 'savedata');
+			form_data.append('proj_name',this.$data.global_config.user);
+			form_data.append('pagedata', JSON.stringify(fetchData(this.$data.proj_data)));
+			// console.log(JSON.stringify(fetchData(this.$data.proj_data)));
+			Lib.$.ajax({
+					type: 'post',
+					url: 'http://x.addev.com/instantad/proj.php',
+					dataType: 'json',
+					crossdomain: true,
+					processData: false,
+					contentType: false,
+					data: form_data,
+					success: function(msg) {
+							// console.log(msg);
+							if (msg.err === 0) {
+									// LocalDB.save(ret);
+									console.log('保存成功');
+							}
+					},
+					fail: function(msg) {
+							console.log(msg);
+					}
+			});
 		},
 		getPageData: function(page_num) {
 			var data = this.$data.proj_data.adCanvasInfo.PageList.Page[page_num];

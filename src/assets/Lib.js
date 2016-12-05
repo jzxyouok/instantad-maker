@@ -5,9 +5,10 @@ import $ from 'jquery';
 import C from 'assets/conf';
 import M from 'assets/common';
 import _ from 'lodash';
+import UploadManager from 'assets/uploadmanager';
 
 var Rxports = {
-	M,C,_,$
+	M,C,_,$,UploadManager
 };
 
 module.exports = Rxports
