@@ -1,14 +1,19 @@
 <template lang="html">
-  <div style="position:relative;background:#c0a0a0;"><video class="preview" :src=videoUrl alt="preview" @click="selectFocus" ></video><div v-show="0">高度：<input type="text" v-model="itemData.videoHeight" /></div>
-  <div class="process" :style="processObject" v-show="property">{{process>10?Math.floor(process)+"%":""}}</div>
-  <div class="addfile" style="position:absolute;left:0;top:0;right:0;bottom:0;margin:auto;" v-show="property && (!itemData.videoUrl)" @click="uploadfile">+</div></div>
+  <div style="position:relative;background:#c0a0a0;">
+
+    <video class="preview" :src="videoUrl" alt="preview" @click="selectFocus" v-if="isThumb"></video>
+    <video class="preview" controls :src="videoUrl" alt="preview" @click="selectFocus" v-if="!isThumb && typeof preview=='undefined'"></video>
+    <video class="preview" :src="videoUrl" alt="preview" @click="selectFocus" v-if="typeof preview!='undefined'"></video>
+    <div class="process" :style="processObject" v-show="property">{{process>10?Math.floor(process)+"%":""}}</div>
+    <div class="addfile" style="position:absolute;left:0;top:0;right:0;bottom:0;margin:auto;" v-show="property && (!itemData.videoUrl)" @click="uploadfile">+</div>
+  </div>
 </template>
 
 <script>
 import Lib from 'assets/Lib'
 export default {
   data: function() {
-      // console.log(this.item_data);
+      console.log(this.itemData);
       return {
           process:0,
           styleObject: {
@@ -19,6 +24,21 @@ export default {
           }
       };
   },
+  // watch:{
+  //   //t0200w54xi7
+  //   //http://vv.play.aiseet.atianqi.com/getvmind?clip=1&encryptVer=1.0&appaid=1&platform=10603&appVer=1.0&speed=400&defn=shd&device=21&dtype=1&otype=xml&vids=t0200w54xi7
+  //   itemData:function(newVal,oldVal) {
+  //     console.log(newVal,oldVal);
+  //     Lib.$.ajax({
+  //       url:'http://x.addev.com/instantad/videofetch.php',
+  //       type:'post',
+  //       data:'vid='+newVal.itemData.videoVid,
+  //       succcess:function(ret) {
+  //         console.log(ret);
+  //       }
+  //     })
+  //   }
+  // },
   computed: {
       videoUrl: function() {
           // console.log(Lib.C.basepath+this.itemData.videoUrl);
@@ -32,8 +52,13 @@ export default {
                     rect.height);
               }
           }, 1000);
-          return this.itemData.localfile ||
-              (Lib.C.basepath + this.itemData.videoUrl);
+          if(this.itemData.localfile) {
+            return this.itemData.localfile;
+          }
+          if(this.itemData.videoUrl.indexOf('http')===0) {
+            return this.itemData.videoUrl;
+          }
+          return Lib.C.basepath + this.itemData.videoUrl;
       },
       processObject:function() {
         return {
@@ -79,7 +104,7 @@ export default {
               .trigger('click');
       }
   },
-  props: ['itemData', 'preview','property']
+  props: ['itemData', 'preview','property','isThumb']
 }
 </script>
 

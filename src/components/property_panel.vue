@@ -11,7 +11,7 @@
   <instantad-button :item-data=itemData :preview=true v-if="itemData.type=='21'"></instantad-button>
   <instantad-video ref="property_video" :item-data=itemData :preview=true property=1 v-if="itemData.type=='62'"></instantad-video>
   <div v-if="itemData.type=='62'">
-    <div>面包vid:<input type="text" v-model=itemData.videoVid /></div>
+    <div>面包vid:<input type="text" v-model=itemData.videoVid @input="vidChange" /></div>
   </div>
   <instantad-slider :item-data=itemData :preview=true :property=1 v-if="itemData.type=='101'"></instantad-slider>
     </div>
@@ -112,6 +112,31 @@ export default {
     },
     clear: function() {
       this.seen = false;
+    },
+    vidChange:function(evt) {
+      // t0200w54xi7
+      var self = this;
+      var vid = Lib.$(evt.target).val();
+      // console.log(vid);
+      var form_data = new FormData();
+      form_data.append('vid', vid);
+      Lib.$.ajax({
+        url:'http://x.addev.com/instantad/videofetch.php',
+        type:'post',
+        data:form_data,
+        dataType:'json',
+        crossdomain: true,
+        processData: false,
+        contentType: false,
+        success:function(ret) {
+          // console.log(ret);
+          var item_data = Lib.$.extend(self.itemData,{
+            videoUrl:ret['url']
+          });
+          console.log(item_data);
+          self.$emit('itemchange',self.itemData.id,item_data);
+        }
+      });
     }
   }
 }

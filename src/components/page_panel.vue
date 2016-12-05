@@ -63,7 +63,7 @@ export default {
           } else {
             var videoHeight = 0;
           }
-          top += item_list[i].imageHeight || videoHeight * 2;
+          top += item_list[i].imageHeight || videoHeight;
         }
       }
       // console.log(top);

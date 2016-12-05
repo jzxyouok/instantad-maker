@@ -15,7 +15,7 @@
 </template>
   <template v-if="item.type=='62'">
 <div style="position:relative;line-height:1px;">
-  <instantad-video :item-data=item :preview=true v-on:videoload="imageload" v-on:selectitem="selectItem"></instantad-video>
+  <instantad-video :item-data=item v-on:videoload="imageload" v-on:selectitem="selectItem" :is-thumb="isThumb"></instantad-video>
   <div v-show="!isThumb" class="close" @click="deleteItem(item.id)">X</div>
 </div>
 </template>
