@@ -28,18 +28,14 @@
 											<span>项目列表</span></div> -->
 							</div>
 							<div class="tab-content current" id="thumb_panel" data-tab="tabpage">
-								<thumbpage-panel :page-list="proj_data.adCanvasInfo.PageList.Page"></thumbpage-panel>
+								<thumbpage-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page" v-on:addpage="addPage" v-on:setpage="setPage"></thumbpage-panel>
 							</div>
 							<div class="tab-content" data-tab="tabproj"><div id="proj_panel"></div></div>
-					</div>
-					<div class="uploadfile_wrapper">
-							<input type="file" id="upload-file-image" class="uploadfile" accept="image/gif, image/jpeg,image/png">
-							<input type="file" id="upload-file-video" class="uploadfile" accept="video/mp4">
 					</div>
 					<div class="content" id="content">
 							<div>页面编辑</div>
 							<div id="editpage_panel">
-								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" v-on:uploadimage="uploadImage"></page-panel>
+								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page"></page-panel>
 							</div>
 					</div>
 					<div class="rightside">
@@ -83,12 +79,16 @@ export default {
 		}
 	},
 	mounted: function() {
-		console.log('app.vue');
+		console.log('app.vue mounted');
 	},
 	created: function() {
 		console.log('app.vue created');
+		var self = this;
 		//load remote data
 		this.$data = {
+			global_config:{
+				cur_page:0
+			},
 			proj_data: {
 				adCanvasInfo: {
 					PageList: {
@@ -126,13 +126,109 @@ export default {
 			proj_setting: {}
 		}
 		//初始化上传组件
-		
+		Lib.$('#upload-file-image').on('change', function(evt) {
+      var file = evt.target.files[0];
+      // var compEl = $('#' + globalData.cur_compId);
+      if (file) {
+        console.log(file);
+        //TODO:校验 图片大小是否符合要求
+        if (file.size > 360000) alert('上传的文件过大');
+        else {
+          var reader = new FileReader();
+          reader.readAsDataURL(file); // 读取文件
+
+          // 渲染文件
+          reader.onload = function(arg) {
+            var src = arg.target.result;
+            var item_data = {
+              id: 'comp_' + Lib.C.geneId(),
+              paddingBottom: '0',
+              paddingLeft: '0',
+              paddingTop: '0',
+              paddingRight: '0'
+            };
+            item_data = Lib.$.extend(item_data, {
+              imageHeight: 'auto',
+              imageWidth: 750 + '',
+              pureImageUrl: './resource/' + file.name,
+              localfile: src,
+              type: '41'
+            });
+            // if (globalData.upload_id) {
+            //     if(item_data.type === '41') {
+            //       DataManager.addItem(item_data, globalData.upload_id);
+            //     } else {
+            //       item_data.id = globalData.upload_id;
+            //       DataManager.setCurrItem(globalData.upload_id,item_data);
+            //     }
+            // } else {
+            console.log(item_data);
+						self.addItem(item_data);
+            // this.$emit('addItem', item_data);
+            // }
+            // UploadManager.upload(file, arg);
+          }
+        }
+      }
+    });
+
 	},
 	methods: {
-		//上传图片
-		uploadImage: function() {
-			Lib.$('#upload-file-image')
-				.trigger('click');
+		addPage:function() {
+			var self = this;
+			var pages = this.$data.proj_data.adCanvasInfo.PageList.Page;
+			pages.push({
+				backgroundColor: '#ffffff',
+				backgroundCover: null,
+				componentItemList: {
+					componentItem: []
+				}
+			});
+			this.$data.global_config.cur_page +=1;
+			//改变数据后，不能马上切换坐标
+			Lib._.delay(function() {
+				Lib.$('#content').scrollTop(self.$data.global_config.cur_page * (667+10)+20);
+			},200);
+		},
+		setPage:function(key) {
+			this.$data.global_config.cur_page = key;
+			Lib.$('#content').scrollTop(key * (667+10)+20);
+		},
+		addItem: function(item, parent_id) {
+				// console.log(addItem);
+				// var p_data = this.getPageData(globalData.cur_page);
+				// p_data.push(item);
+				// console.log(inst_thumbpage.$data.page_list === inst_pagepanel.$data
+				//     .page_list);
+				// console.log(inst_pagepanel.$data);
+				if (parent_id) {
+						var item_data = this.getItemFromPage(parent_id);
+						item_data.componentGroupList.componentGroup.push({
+								'componentItem': item
+						});
+						console.log(item_data);
+						//属性栏添加组件时没有更新其他关联组件
+				} else {
+						var page_data = this.getPageData(this.$data.global_config.cur_page);
+						page_data.push(item);
+				}
+				// console.log(inst_thumbpage.$data.page_list === inst_pagepanel.$data
+				//     .page_list);
+		},
+		getPageData:function(page_num) {
+			var data = this.$data.proj_data.adCanvasInfo.PageList.Page[page_num];
+			return data.componentItemList.componentItem;
+		},
+		//获取当前页指定id数据
+		getItemFromPage: function(item_id) {
+				var data = this.$data.proj_data.adCanvasInfo.PageList.Page;
+				var cur_page_data = data[this.$data.global_config.cur_page].componentItemList.componentItem;
+				// console.log(cur_page_data);
+				var ret = Lib._.filter(cur_page_data, function(val, key) {
+						// console.log(val.id === item_id);
+						return val.id === item_id;
+				});
+				return ret[0];
 		}
 	}
 

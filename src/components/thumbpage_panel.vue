@@ -15,12 +15,11 @@ export default {
   props: {
     'pageList': {
       type: Array
-    }
+    },
+    'curPage':0
   },
   data: function() {
-    return {
-      curPage: 0
-    };
+    return {};
   },
   components: {
     instantadPage
@@ -33,9 +32,10 @@ export default {
     setcurrent: function(key) {
       // console.log(key);
       this.curPage = key;
-      this.tellDataManager();
+      this.$emit('setpage',key);
     },
     deletePage: function(key) {
+      this.$emit('deletepage',key);
       // console.log(key);
       if (this.pageList.length === 1) {
         alert('最后一页不能删除');
@@ -50,16 +50,7 @@ export default {
       // this.tellDataManager();
     },
     addPage: function() {
-      var key = this.pageList.length;
-      this.pageList.splice(key, 0, {
-        backgroundColor: '#ffffff',
-        backgroundCover: null,
-        componentItemList: {
-          componentItem: []
-        }
-      });
-      this.curPage = key;
-      this.tellDataManager();
+      this.$emit('addpage');
     }
   },
   created: function() {

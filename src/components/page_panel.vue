@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-      <div class="editpage" v-bind:class="{current:cur_page==index}" v-for="(index,value) in pageList">
+      <div class="editpage" v-bind:class="{current:curPage==index}" v-for="(index,value) in pageList">
         <instantad-page :is-thumb=false :page-data=value v-on:caltop="caltop"></instantad-page>
         <div class="operate" @click="uploadImage" v-bind:style="styleObject">
           <span class="addcomponent">+</span>添加组件
@@ -8,6 +8,7 @@
             <span style="display:block;">图片</span>
             <span style="display:block;background:#fff;" @click.prevent.stop="addEmptyComponent">视频</span>
           </div>
+      </div>
       </div>
     </div>
 </template>
@@ -19,14 +20,14 @@ export default {
   props: {
     'pageList': {
       type: Array
-    }
+    },
+    'curPage':0
   },
   components: {
     instantadPage
   },
   data: function() {
     return {
-      cur_page: 0,
       isCurrent: true,
       top: 0,
       styleObject: {},
@@ -34,13 +35,23 @@ export default {
     }
   },
   created: function() {
-    console.log(this.pageList);
+    console.log('page_panel created',this.pageList);
+    // console.log(Lib.$('#upload-file-image'));
+  },
+  mounted:function() {
+    console.log('page_panel mounted');
+  },
+  updated:function() {
+    console.log('page_panel updated');
+  },
+  activated:function() {
+    console.log('page_panel activeted');
   },
   computed: {
     styleObject: function() {
       var top = 0;
       if (!_.isEmpty(this.pageList[0])) {
-        var item_list = this.pageList[this.cur_page].componentItemList
+        var item_list = this.pageList[this.curPage].componentItemList
           .componentItem;
         for (var i = 0; i < item_list.length; i++) {
           // console.log(item_list[i].imageHeight, item_list[
@@ -71,11 +82,10 @@ export default {
     hideExtend: function() {
       this.extendFlag = false;
     },
-    uploadImage:function() {
-      console.log('uploadImage');
-      this.$emit('uploadimage');
-// console.log(this.$emit);
-      // alert(1);
+    uploadImage: function() {
+      //上传图片
+      Lib.$('#upload-file-image')
+        .trigger('click');
     },
     addEmptyComponent: function() {
       //添加一个空组件

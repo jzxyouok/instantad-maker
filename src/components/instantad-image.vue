@@ -27,7 +27,7 @@
                 this.$emit('selectFocus', this.item_data.id);
             },
             load: function(evt) {
-                var rect = $(evt.target)[0].getBoundingClientRect();
+                var rect = Lib.$(evt.target)[0].getBoundingClientRect();
                 // console.log(rect.height);
                 this.$emit('imageload', this.item_data.id, rect.width, rect.height);
             }
