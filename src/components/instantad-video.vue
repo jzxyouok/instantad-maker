@@ -24,11 +24,13 @@ export default {
           // console.log(Lib.C.basepath+this.itemData.videoUrl);
           var self = this;
           _.delay(function() {
-              var rect = self.$el.getBoundingClientRect();
-              // console.log(rect.height);
-              self.$emit('videoload', self.itemData.id, rect
-                  .width,
-                  rect.height);
+              if(self.$el) {
+                var rect = self.$el.getBoundingClientRect();
+                // console.log(rect.height);
+                self.$emit('videoload', self.itemData.id, rect
+                    .width,
+                    rect.height);
+              }
           }, 1000);
           return this.itemData.localfile ||
               (Lib.C.basepath + this.itemData.videoUrl);

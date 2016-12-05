@@ -32,7 +32,7 @@
 							</div>
 							<div class="tab-content" data-tab="tabproj"><div id="proj_panel"></div></div>
 					</div>
-					<div class="content" id="content">
+					<div class="content" id="content" @click="clearProperty">
 							<div>页面编辑</div>
 							<div id="editpage_panel">
 								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page" v-on:propertychange="propertyChange" v-on:selectitem="selectItem" v-on:deleteitem="deleteItem" v-on:addvideo="addVideo"></page-panel>

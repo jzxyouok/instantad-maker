@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-      <div class="editpage" v-bind:class="{current:curPage==index}" v-for="(index,value) in pageList">
+      <div class="editpage" v-bind:class="{current:curPage==index}" v-for="(index,value) in pageList" @click.stop="">
         <instantad-page :is-thumb=false :page-data=value v-on:caltop="caltop" v-on:imageload="imageLoad" v-on:selectitem="selectItem" v-on:deleteitem="deleteItem"></instantad-page>
         <div class="operate" @click="uploadImage" v-bind:style="styleObject">
           <span class="addcomponent">+</span>添加组件
