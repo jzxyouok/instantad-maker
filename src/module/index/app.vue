@@ -28,7 +28,7 @@
 											<span>项目列表</span></div> -->
 							</div>
 							<div class="tab-content current" id="thumb_panel" data-tab="tabpage">
-<thumbpage-panel :page-list=proj_data.adCanvasInfo.PageList.Page></thumbpage-panel>
+								<thumbpage-panel :page-list="proj_data.adCanvasInfo.PageList.Page"></thumbpage-panel>
 							</div>
 							<div class="tab-content" data-tab="tabproj"><div id="proj_panel"></div></div>
 					</div>
@@ -38,7 +38,9 @@
 					</div>
 					<div class="content" id="content">
 							<div>页面编辑</div>
-							<div id="editpage_panel"></div>
+							<div id="editpage_panel">
+								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page"></page-panel>
+							</div>
 					</div>
 					<div class="rightside">
 							<div id="property">
@@ -67,11 +69,13 @@
 <script>
 import propertyPanel from 'components/property_panel';
 import thumbpagePanel from 'components/thumbpage_panel';
+import pagePanel from 'components/page_panel';
 
 export default {
 	components: {
 		propertyPanel,
-		thumbpagePanel
+		thumbpagePanel,
+		pagePanel
 	},
 	data: function() {
 		return {

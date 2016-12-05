@@ -44,14 +44,14 @@ export default {
     instantadSlider,
     instantadButton
   },
-  props: ['pageData', 'isThumb'],
+  props: ['pageData','isThumb'],
   data: function() {
     return {
       top: 0
     }
   },
-  computed:{
-    isShow:function() {
+  computed: {
+    isShow: function() {
       return !Lib._.isEmpty(this.pageData)
     }
   },
@@ -59,9 +59,12 @@ export default {
     console.log('instantad-page updated');
     // console.log(this.page_data);
   },
+  created: function() {
+    console.log(this.pageData);
+  },
   methods: {
     tellDataManager: function(item_id, data) {
-      DataManager.setCurrItem(item_id, data);
+      // DataManager.setCurrItem(item_id, data);
     },
     selectItem: function(item_id) {
       // alert(item_id);

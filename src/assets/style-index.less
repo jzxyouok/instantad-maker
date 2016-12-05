@@ -170,115 +170,115 @@ html {
         margin-right: 10px;
         color: #fff;
       }
+    }
 
-      .middle .content .editpage {
-        cursor: pointer;
-        transition: background-color 0.5s;
-        background-color: #adadad;
-        width: 375px;
-        height: 667px;
-        margin: 10px auto;
-        text-align: center;
-        outline: 1px dashed #a0a0a0;
-        position: relative;
+    .middle .content .editpage {
+      cursor: pointer;
+      transition: background-color 0.5s;
+      background-color: #adadad;
+      width: 375px;
+      height: 667px;
+      margin: 10px auto;
+      text-align: center;
+      outline: 1px dashed #a0a0a0;
+      position: relative;
+    }
+
+    .editpage {
+      &.current {
+        display: block;
+        background-color: #fcfcfc;
+
+        &:hover {
+          background-color: @bg;
+        }
       }
 
-      .editpage {
-        &.current {
-          display: block;
-          background-color: #fcfcfc;
+      .slider_wrapper {
+        height: 20px;
+        background: transparent;
+        position: absolute;
+        left: 100px;
+        right: 100px;
+        bottom: 20px;
 
-          &:hover {
-            background-color: @bg;
+        .slide_point {
+          &.current {
+            background: #aaa;
           }
+          display: inline-block;
+          width: 14px;
+          margin-left: 4px;
+          height: 14px;
+          border-radius: 50%;
+          background: #fff;
         }
-
-        .slider_wrapper {
-          height: 20px;
-          background: transparent;
-          position: absolute;
-          left: 100px;
-          right: 100px;
-          bottom: 20px;
-
-          .slide_point {
-            &.current {
-              background: #aaa;
-            }
-            display: inline-block;
-            width: 14px;
-            margin-left: 4px;
-            height: 14px;
-            border-radius: 50%;
-            background: #fff;
-          }
-        }
-        cursor: pointer;
-        transition: background-color 0.5s;
-        background-color: #adadad;
-        width: 375px;
-        // transform:scale(0.75,0.75);
-        height: 667px;
-        margin: 10px auto;
-        text-align: center;
-        outline: 1px dashed #a0a0a0;
-        position: relative;
       }
+      cursor: pointer;
+      transition: background-color 0.5s;
+      background-color: #adadad;
+      width: 375px;
+      // transform:scale(0.75,0.75);
+      height: 667px;
+      margin: 10px auto;
+      text-align: center;
+      outline: 1px dashed #a0a0a0;
+      position: relative;
     }
   }
+}
 
-  .addcomponent,
-  .addfile {
-    text-align: center;
-    cursor: pointer;
-    width: 50px;
-    height: 50px;
-    background: #c0c;
+.addcomponent,
+.addfile {
+  text-align: center;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  background: #c0c;
+  display: inline-block;
+  line-height: 50px;
+  font-size: 25px;
+  color: #fff;
+}
+
+.tabs .tab.current {
+  display: block;
+  background: lighten(@background, 5%);
+
+  span {
+    color: #333;
+  }
+}
+
+.tabs .tab {
+  width: 100%;
+  float: left;
+  text-align: center;
+  // padding:4px;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+
+  span {
     display: inline-block;
-    line-height: 50px;
-    font-size: 25px;
-    color: #fff;
+    margin: 4px 0;
   }
+}
 
-  .tabs .tab.current {
-    display: block;
-    background: lighten(@background, 5%);
+.tab-content {
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  overflow: scroll;
+  position: absolute;
+  top: 25px;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
 
-    span {
-      color: #333;
-    }
-  }
-
-  .tabs .tab {
-    width: 100%;
-    float: left;
-    text-align: center;
-    // padding:4px;
-    background: #fff;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-
-    span {
-      display: inline-block;
-      margin: 4px 0;
-    }
-  }
-
-  .tab-content {
-    width: 100%;
-    text-align: center;
-    margin: 0 auto;
-    overflow: scroll;
-    position: absolute;
-    top: 25px;
-    bottom: 0;
-    left: 0;
-    display: none;
-  }
-
-  .tab-content.current {
-    display: block;
-  }
+.tab-content.current {
+  display: block;
 }
 
 .uploadfile {
