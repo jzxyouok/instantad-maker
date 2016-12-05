@@ -2,16 +2,92 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <meta content="telephone=no" name="format-detection" /> 
-    <meta content="email=no" name="format-detection" />
-    <title>登陆</title>
-    
+    <title>InstantAD Maker v1.0.1</title>
+<style media="screen">
+  body {
+    background:#f0f0f0;
+  }
+  .enter {
+    position:absolute;
+    background:#cdffcd;
+    display:block;
+    width:120px;
+    height:40px;
+    line-height: 40px;
+    bottom:0;top:0;right:0;left:0;
+    margin:auto;
+    font-weight: bold;
+    color:#333;
+    text-align: center;
+    border:2px solid #fff;
+    cursor: pointer;
+  }
+</style>
   </head>
   <body>
-  	
-    <app></app>
-    <!-- built files will be auto injected -->
+<script type="text/javascript">
+// cookie
+var gCookie = {
+  deserializeString:function(assign_token, pair_separator, need_last, need_decode) {
+    var decode = need_decode ? decodeURIComponent : function(k) {
+      return k;
+    };
+    return function(s) {
+      var ret = {};
+      if (need_last) {
+        s = s.replace(new RegExp(pair_separator + '$'), '');
+      }
+      var pairArray = s.split(pair_separator);
+      for (var i = 0; i < pairArray.length; i++) {
+        var pair = pairArray[i];
+        var key_value = pair.split(assign_token);
+        ret[decode(key_value[0])] = decode(key_value[1]);
+      }
+      return ret;
+    };
+  },
+  set: function(key, value, options) {
+    var text = key + '=' + value;
+    if (options){
+          if (options.expires){
+              text += "; expires=" + (new Date((new Date()).getTime() + 86400000 * options.expires)).toGMTString();
+          }
+          if (options.path){
+              text += "; path=" + options.path;
+          }
+          if (options.domain){
+              text += "; domain=" + options.domain;
+          }
+          if (options.secure === true){
+              text += "; secure";
+          }
+    }
+    document.cookie = text;
+  },
+  get: function(key) {
+    var o = this.deserializeString('=', '; ', false, false)(document.cookie);
+    return key? o[key]: o;
+  },
+  remove: function(k, options) {
+    options = options || {};
+    options.expires = -1;
+    this.set(k, "", options);
+  }
+};
 
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+    .substr(1)
+        .split("&")
+        .forEach(function (item) {
+        tmp = item.split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    });
+    return result;
+};
+</script>
+<app></app>
   </body>
 </html>
