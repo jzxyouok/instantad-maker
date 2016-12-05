@@ -13,7 +13,7 @@
   <div v-if="itemData.type=='62'">
     <div>面包vid:<input type="text" v-model=itemData.videoVid /></div>
   </div>
-  <instantad-slider :item-data=itemData :preview=true property=1 v-if="itemData.type=='101'"></instantad-slider>
+  <instantad-slider :item-data=itemData :preview=true :property=1 v-if="itemData.type=='101'"></instantad-slider>
     </div>
     <div v-show="itemData && itemData.componentItemList">
     <div style="display:none;">{{itemData}}</div>

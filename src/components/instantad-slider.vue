@@ -1,17 +1,17 @@
 <template>
   <div style="position:relative;">
     <div v-show="property" v-for="(index,value) in items">
-    <instantad-image :item-data="value.componentItem" :preview=true></instantad-image>
+      <instantad-image :item-data="value.componentItem" :preview="true"></instantad-image>
     </div>
     <div v-show="!property">
-    <instantad-image :item-data="items[0].componentItem" :preview=true v-on:selectFocus="selectItem"></instantad-image>
+      <instantad-image :item-data="items[0].componentItem" :preview=true v-on:selectFocus="selectItem"></instantad-image>
     </div>
     <div v-show="!isThumb" class="slider_wrapper">
       <span class="slide_point current"></span><span class="slide_point"></span>
       <span class="slide_point"></span><span class="slide_point"></span>
-      </div>
+    </div>
     <div class="addfile" v-show="property" @click="uploadfile">+</div>
-      </div>
+  </div>
 </template>
 
 <script>
@@ -48,9 +48,7 @@ module.exports = {
       this.tellDataManager(item_id);
     },
     uploadfile: function() {
-      console.log(this.itemData.id);
-      globalData.upload_id = this.itemData.id;
-      $('#upload-file-image')
+      Lib.$('#upload-file-image')
         .trigger('click');
     }
   },

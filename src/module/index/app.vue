@@ -157,17 +157,17 @@ export default {
 							localfile: src,
 							type: '41'
 						});
-						// if (globalData.upload_id) {
-						//     if(item_data.type === '41') {
-						//       DataManager.addItem(item_data, globalData.upload_id);
-						//     } else {
+						if (self.$data.global_config.cur_item.type==='101') {
+						    if(item_data.type === '41') {
+						      self.addItem(item_data, self.$data.global_config.cur_item.id);
+						    }
 						//       item_data.id = globalData.upload_id;
 						//       DataManager.setCurrItem(globalData.upload_id,item_data);
 						//     }
-						// } else {
-						self.addItem(item_data);
+						} else {
+							self.addItem(item_data);
 						// this.$emit('addItem', item_data);
-						// }
+						}
 						// UploadManager.upload(file, arg);
 					}
 				}
@@ -191,10 +191,12 @@ export default {
 			Lib._.delay(function() {
 				Lib.$('#content').scrollTop(self.$data.global_config.cur_page * (667 + 10) + 20);
 			}, 200);
+			this.clearProperty();
 		},
 		setPage: function(key) {
 			this.$data.global_config.cur_page = key;
 			Lib.$('#content').scrollTop(key * (667 + 10) + 20);
+			this.clearProperty();
 		},
 		deletePage: function(key) {
 			var curPage = this.$data.global_config.cur_page;
@@ -304,16 +306,19 @@ export default {
 		},
 		itemChange:function(item_id,item_data) {
 			this.replaceItem(item_id,item_data);
+			this.selectItem(item_id);
 		},
 		deleteItem:function(item_id) {
 			this.replaceItem(item_id,null);
+		},
+		clearProperty:function() {
+			this.$data.global_config.cur_item = this.$data.proj_data.adCanvasInfo.PageList.Page[this.$data.global_config.cur_page];
 		},
 		selectItem: function(item_id) {
 			// alert(item_id);
 			var data = this.getItem(item_id);
 			// console.log(data);
 			this.$data.global_config.cur_item = data;
-console.log(Lib._.pick(Lib.C.items, Lib.C.availChangeList[data.type]));
 			this.$data.global_config.options = Lib._.pick(Lib.C.items, Lib.C
 					.availChangeList[
 							data.type])
