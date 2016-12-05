@@ -2,7 +2,7 @@
   <div>
       <div class="editpage" v-bind:class="{current:cur_page==index}" v-for="(index,value) in pageList">
         <instantad-page :is-thumb=false :page-data=value v-on:caltop="caltop"></instantad-page>
-        <div class="operate" v-bind:style="styleObject">
+        <div class="operate" @click="uploadImage" v-bind:style="styleObject">
           <span class="addcomponent">+</span>添加组件
           <div style="display:inline-block;position:absolute;" @mouseover="showExtend" @mouseout="hideExtend">
             <span style="display:block;">图片</span>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import Lib from 'assets/Lib.js'
 import instantadPage from 'components/instantad-page'
 export default {
   props: {
@@ -70,17 +71,23 @@ export default {
     hideExtend: function() {
       this.extendFlag = false;
     },
+    uploadImage:function() {
+      console.log('uploadImage');
+      this.$emit('uploadimage');
+// console.log(this.$emit);
+      // alert(1);
+    },
     addEmptyComponent: function() {
       //添加一个空组件
       // console.log(this.top);
       var item_data = {
-        id: 'comp_' + Component.geneId(),
+        id: 'comp_' + Lib.C.geneId(),
         paddingBottom: '0',
         paddingLeft: '0',
         paddingTop: '0',
         paddingRight: '0'
       };
-      item_data = $.extend(item_data, {
+      item_data = Lib.$.extend(item_data, {
         videoWidth: 750 + '',
         videoHeight: 'auto',
         videoUrl: '',
@@ -88,8 +95,6 @@ export default {
         videoVid: '',
         type: '62'
       });
-      // DataManager.addItem(item_data);
-      // console.log('add');
     }
   }
 }

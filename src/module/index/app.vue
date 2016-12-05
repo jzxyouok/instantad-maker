@@ -39,7 +39,7 @@
 					<div class="content" id="content">
 							<div>页面编辑</div>
 							<div id="editpage_panel">
-								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page"></page-panel>
+								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" v-on:uploadimage="uploadImage"></page-panel>
 							</div>
 					</div>
 					<div class="rightside">
@@ -70,7 +70,7 @@
 import propertyPanel from 'components/property_panel';
 import thumbpagePanel from 'components/thumbpage_panel';
 import pagePanel from 'components/page_panel';
-
+import Lib from 'assets/Lib'
 export default {
 	components: {
 		propertyPanel,
@@ -124,6 +124,15 @@ export default {
 				verify: 0
 			},
 			proj_setting: {}
+		}
+		//初始化上传组件
+		
+	},
+	methods: {
+		//上传图片
+		uploadImage: function() {
+			Lib.$('#upload-file-image')
+				.trigger('click');
 		}
 	}
 
