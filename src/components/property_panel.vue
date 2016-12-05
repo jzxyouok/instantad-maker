@@ -130,11 +130,13 @@ export default {
         contentType: false,
         success:function(ret) {
           // console.log(ret);
-          var item_data = Lib.$.extend(self.itemData,{
-            videoUrl:ret['url']
-          });
-          console.log(item_data);
-          self.$emit('itemchange',self.itemData.id,item_data);
+          if(!ret.msg) {
+            var item_data = Lib.$.extend(self.itemData,{
+              videoUrl:ret['url']
+            });
+            console.log(item_data);
+            self.$emit('itemchange',self.itemData.id,item_data);
+          }
         }
       });
     }

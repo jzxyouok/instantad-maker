@@ -3,7 +3,7 @@
 @import "lib-reset"; //
 // /* Import lib-rem.less if supportREM opened. */
 @import "lib-rem";
-@header_h: 40px;
+@header_h: 60px;
 @footer_h: 0;
 @background: #ccddff;
 @font_color: #4d7f40;
@@ -173,17 +173,6 @@ html {
       }
     }
 
-    .middle .content .editpage {
-      cursor: pointer;
-      transition: background-color 0.5s;
-      background-color: #adadad;
-      width: 375px;
-      height: 667px;
-      margin: 10px auto;
-      text-align: center;
-      outline: 1px dashed #a0a0a0;
-      position: relative;
-    }
 
     .editpage {
       &.current {
@@ -194,7 +183,16 @@ html {
           background-color: @bg;
         }
       }
-
+      cursor: pointer;
+      transition: background-color 0.5s;
+      background-color: #adadad;
+      width: 375px;
+      height: 667px;
+      margin: 40px auto;
+      text-align: center;
+      outline: 1px dashed #a0a0a0;
+      position: relative;
+      zoom:0.8;
       .slider_wrapper {
         height: 20px;
         background: transparent;
@@ -215,16 +213,6 @@ html {
           background: #fff;
         }
       }
-      cursor: pointer;
-      transition: background-color 0.5s;
-      background-color: #adadad;
-      width: 375px;
-      // transform:scale(0.75,0.75);
-      height: 667px;
-      margin: 10px auto;
-      text-align: center;
-      outline: 1px dashed #a0a0a0;
-      position: relative;
     }
   }
 }

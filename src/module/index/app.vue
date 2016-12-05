@@ -235,13 +235,13 @@ export default {
 			this.$data.global_config.cur_page += 1;
 			//改变数据后，不能马上切换坐标
 			Lib._.delay(function() {
-				Lib.$('#content').scrollTop(self.$data.global_config.cur_page * (667 + 10) + 20);
+				Lib.$('#content').scrollTop(self.$data.global_config.cur_page * (667*0.8 + 10));
 			}, 200);
 			this.clearProperty();
 		},
 		setPage: function(key) {
 			this.$data.global_config.cur_page = key;
-			Lib.$('#content').scrollTop(key * (667 + 10) + 20);
+			Lib.$('#content').scrollTop(key * (667*0.8 + 10));
 			this.clearProperty();
 		},
 		deletePage: function(key) {
