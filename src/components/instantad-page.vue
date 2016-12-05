@@ -1,7 +1,7 @@
 <template lang="html">
   <div :class={scalepage:isThumb}>
-  <template v-if="!_.isEmpty(page_data)">
-  <template v-for="item in page_data.componentItemList.componentItem">
+  <template v-if="isShow">
+  <template v-for="item in pageData.componentItemList.componentItem">
   <template v-if="item.type=='41'">
   <div style="position:relative;line-height:1px;">
     <instantad-image :item_data=item :preview=true v-on:imageload="imageload" v-on:selectFocus="selectItem"></instantad-image>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import Lib from 'assets/Lib.js';
 import instantadImage from 'components/instantad-image'
 import instantadButton from 'components/instantad-button'
 import instantadVideo from 'components/instantad-video'
@@ -43,14 +44,19 @@ export default {
     instantadSlider,
     instantadButton
   },
-  props: ['page_data', 'isThumb'],
+  props: ['pageData', 'isThumb'],
   data: function() {
     return {
       top: 0
     }
   },
+  computed:{
+    isShow:function() {
+      return !Lib._.isEmpty(this.pageData)
+    }
+  },
   updated: function() {
-    // console.log('instantad-page updated');
+    console.log('instantad-page updated');
     // console.log(this.page_data);
   },
   methods: {

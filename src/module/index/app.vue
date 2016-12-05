@@ -28,7 +28,7 @@
 											<span>项目列表</span></div>
 							</div>
 							<div class="tab-content current" id="thumb_panel" data-tab="tabpage">
-<thumbpage-panel></thumbpage-panel>
+<thumbpage-panel :page-list=proj_data.adCanvasInfo.PageList.Page></thumbpage-panel>
 							</div>
 							<div class="tab-content" data-tab="tabproj"><div id="proj_panel"></div></div>
 					</div>
@@ -83,6 +83,44 @@ export default {
 	},
 	created: function() {
 		console.log('app.vue created');
+		//load remote data
+		this.$data = {
+			proj_data: {
+				adCanvasInfo: {
+					PageList: {
+						Page: [{
+							backgroundColor: '#ffffff',
+							backgroundCover: null,
+							componentItemList: {
+								componentItem: []
+							}
+						}]
+					},
+					basicRootFontSize: '1',
+					basicWidth: '750',
+					canvasName: 'instantad',
+					id: '001',
+					pageID: '1001',
+					shareDesc: '',
+					shareThumbUrl: '',
+					shareTitle: '',
+					shareWebUrl: '',
+					pageType: '1'
+				},
+				aid: '',
+				app_id: '',
+				app_img: '',
+				appuin: '',
+				auto: '',
+				data: {
+					app_img: ''
+				},
+				engine: '',
+				source: '',
+				verify: 0
+			},
+			proj_setting: {}
+		}
 	}
 
 }
