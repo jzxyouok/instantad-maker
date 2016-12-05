@@ -41,10 +41,10 @@ export default {
         alert('最后一页不能删除');
         return;
       }
-      if(key === this.curPage) {
-        this.curPage = key - 1;
+      if(key <= this.curPage) {
+        this.curPage = this.curPage - 1;
       }
-      console.log(this.curPage);
+      // console.log(this.curPage);
       this.pageList.splice(key, 1);
       // this.forceUpdate();
       // this.tellDataManager();
