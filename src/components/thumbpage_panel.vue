@@ -35,19 +35,20 @@ export default {
       this.$emit('setpage',key);
     },
     deletePage: function(key) {
-      this.$emit('deletepage',key);
+
       // console.log(key);
       if (this.pageList.length === 1) {
         alert('最后一页不能删除');
         return;
       }
-      if(key <= this.curPage) {
-        this.curPage = this.curPage - 1;
-      }
-      // console.log(this.curPage);
-      this.pageList.splice(key, 1);
-      // this.forceUpdate();
-      // this.tellDataManager();
+      this.$emit('deletepage',key);
+      // if(key <= this.curPage) {
+      //   this.curPage = this.curPage - 1;
+      // }
+      // // console.log(this.curPage);
+      // this.pageList.splice(key, 1);
+      // // this.forceUpdate();
+      // // this.tellDataManager();
     },
     addPage: function() {
       this.$emit('addpage');

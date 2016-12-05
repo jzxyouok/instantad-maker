@@ -77,15 +77,15 @@ export default {
     imageload: function(item_id, width, height) {
       // console.log(item_id, width, height);
       if (!this.isThumb) {
-        this.tellDataManager(item_id, {
-          imageWidth: width * 2,
-          imageHeight: height * 2,
-          videoWidth: width * 2,
-          videoHeight: height * 2
-        });
-        this.top = parseInt(height, 10) * 2;
-        console.log(item_id, this.top);
-        this.$emit('caltop', this.top);
+        // this.tellDataManager(item_id, {
+        //   imageWidth: width * 2,
+        //   imageHeight: height * 2,
+        //   videoWidth: width * 2,
+        //   videoHeight: height * 2
+        // });
+        // this.top = parseInt(height, 10) * 2;
+        // console.log(item_id, width,height);
+        this.$emit('imageload', item_id,width,height);
       }
     }
   }

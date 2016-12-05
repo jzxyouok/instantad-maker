@@ -7,7 +7,7 @@
 					</div>
 					<div class="operation">
 							<div>
-									<button id="save" class="btn small" style="display:none;">保存</button>
+									<button id="save" class="btn small" @click="saveProject">保存</button>
 									<button id="downloadzip" class="btn small">zip下载</button>
 									<button id="publish" class="btn small">在线预览</button>
 									<button id="setting" class="setting btn">
@@ -28,14 +28,14 @@
 											<span>项目列表</span></div> -->
 							</div>
 							<div class="tab-content current" id="thumb_panel" data-tab="tabpage">
-								<thumbpage-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page" v-on:addpage="addPage" v-on:setpage="setPage"></thumbpage-panel>
+								<thumbpage-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page" v-on:addpage="addPage" v-on:setpage="setPage" v-on:deletepage="deletePage"></thumbpage-panel>
 							</div>
 							<div class="tab-content" data-tab="tabproj"><div id="proj_panel"></div></div>
 					</div>
 					<div class="content" id="content">
 							<div>页面编辑</div>
 							<div id="editpage_panel">
-								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page"></page-panel>
+								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page" v-on:propertychange="propertyChange"></page-panel>
 							</div>
 					</div>
 					<div class="rightside">
@@ -194,6 +194,14 @@ export default {
 			this.$data.global_config.cur_page = key;
 			Lib.$('#content').scrollTop(key * (667+10)+20);
 		},
+		deletePage:function(key) {
+			var curPage = this.$data.global_config.cur_page;
+			if(key <= curPage) {
+			  curPage = curPage - 1;
+			}
+			this.$data.global_config.cur_page = curPage;
+			this.$data.proj_data.adCanvasInfo.PageList.Page.splice(key, 1);
+		},
 		addItem: function(item, parent_id) {
 				// console.log(addItem);
 				// var p_data = this.getPageData(globalData.cur_page);
@@ -215,6 +223,31 @@ export default {
 				// console.log(inst_thumbpage.$data.page_list === inst_pagepanel.$data
 				//     .page_list);
 		},
+		saveProject:function() {
+			var fetchData = function(data) {
+					//删除所有local_file字段
+					var ret = data;
+					var self = this;
+					_.each(ret, function(val, key) {
+							// console.log(key, val);
+							if (_.isObject(val)) {
+									ret[key] = fetchData(val);
+							}
+							if (key === 'localfile') {
+									delete ret[key];
+							}
+							if(key=== 'type' && val === '21') {
+								ret['btnHeight'] = ret['imageHeight'];
+								ret['btnWidth'] = ret['imageWidth'];
+								ret['btnSrc'] = ret['pureImageUrl'];
+								console.log(ret['btnJumpUrl']);
+								ret['btnJumpUrl'] = ret['btnJumpUrl'].indexOf('tad_canvas')===0 ? ret['btnJumpUrl'].substr(0,18)+encodeURIComponent(ret['btnJumpUrl'].substr(18)): "tad_canvas://jump?"+encodeURIComponent(ret['btnJumpUrl']);
+							}
+					});
+					return ret;
+			}
+			console.log(JSON.stringify(fetchData( this.$data.proj_data)));
+		},
 		getPageData:function(page_num) {
 			var data = this.$data.proj_data.adCanvasInfo.PageList.Page[page_num];
 			return data.componentItemList.componentItem;
@@ -229,6 +262,26 @@ export default {
 						return val.id === item_id;
 				});
 				return ret[0];
+		},
+		getItem:function(item_id) {
+			var data = this.$data.proj_data.adCanvasInfo.PageList.Page;
+			for(var i=0;i<data.length;i++) {
+				var cur_page_data = data[i].componentItemList.componentItem;
+				// console.log(cur_page_data);
+				var ret = Lib._.filter(cur_page_data, function(val, key) {
+						// console.log(val.id === item_id);
+						return val.id === item_id;
+				});
+				return ret[0];
+			}
+		},
+		propertyChange:function(item_id,width,height) {
+			var item_data = this.getItem(item_id);
+			console.log(item_data);
+			if(item_data.type === '41') {
+				item_data.imageWidth = width*2;
+				item_data.imageHeight = height*2;
+			}
 		}
 	}
 

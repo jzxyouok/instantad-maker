@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
       <div class="editpage" v-bind:class="{current:curPage==index}" v-for="(index,value) in pageList">
-        <instantad-page :is-thumb=false :page-data=value v-on:caltop="caltop"></instantad-page>
+        <instantad-page :is-thumb=false :page-data=value v-on:caltop="caltop" v-on:imageload="imageLoad"></instantad-page>
         <div class="operate" @click="uploadImage" v-bind:style="styleObject">
           <span class="addcomponent">+</span>添加组件
           <div style="display:inline-block;position:absolute;" @mouseover="showExtend" @mouseout="hideExtend">
@@ -21,41 +21,43 @@ export default {
     'pageList': {
       type: Array
     },
-    'curPage':0
+    'curPage': 0
   },
   components: {
     instantadPage
   },
   data: function() {
+    var self = this;
     return {
+      top:0,
       isCurrent: true,
-      top: 0,
-      styleObject: {},
       extendFlag: false
     }
   },
+
   created: function() {
-    console.log('page_panel created',this.pageList);
+    console.log('page_panel created', this.pageList);
     // console.log(Lib.$('#upload-file-image'));
   },
-  mounted:function() {
+  mounted: function() {
     console.log('page_panel mounted');
   },
-  updated:function() {
+  updated: function() {
     console.log('page_panel updated');
   },
-  activated:function() {
+  activated: function() {
     console.log('page_panel activeted');
   },
   computed: {
     styleObject: function() {
+      var self = this;
       var top = 0;
-      if (!_.isEmpty(this.pageList[0])) {
-        var item_list = this.pageList[this.curPage].componentItemList
+      if (!_.isEmpty(self.pageList[0])) {
+        var item_list = self.pageList[self.curPage].componentItemList
           .componentItem;
         for (var i = 0; i < item_list.length; i++) {
-          // console.log(item_list[i].imageHeight, item_list[
-          // i].videoHeight);
+          console.log(item_list[i].imageHeight, item_list[
+            i].videoHeight);
           if (!isNaN(parseInt(item_list[i].videoHeight))) {
             var videoHeight = parseInt(item_list[i].videoHeight);
           } else {
@@ -64,17 +66,19 @@ export default {
           top += item_list[i].imageHeight || videoHeight * 2;
         }
       }
-      // console.log(top);
+      console.log(top);
       return {
         top: top / 2 + 'px',
         opacity: (top > 1320 ? 0 : 1),
-        overflow: this.extendFlag ? 'visible' : 'hidden'
+        overflow: self.extendFlag ? 'visible' : 'hidden'
       }
     }
   },
   methods: {
     caltop: function(height) {
       this.top = height;
+      // console.log(this.top);
+      this.$emit('caltop',this.top);
     },
     showExtend: function() {
       this.extendFlag = true;
@@ -105,6 +109,10 @@ export default {
         videoVid: '',
         type: '62'
       });
+    },
+    imageLoad:function(id,width,height) {
+      console.log(id,width,height);
+      this.$emit('propertychange',id,width,height);
     }
   }
 }
