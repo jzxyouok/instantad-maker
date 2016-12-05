@@ -9,7 +9,7 @@ import Lib from 'assets/Lib.js'
 export default {
   props: ['options', 'type'],
   created: function() {
-    console.log(Lib);
+    // console.log(Lib);
   },
   computed: {
     isShow: function() {

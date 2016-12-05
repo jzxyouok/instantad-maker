@@ -15,7 +15,7 @@
 </template>
   <template v-if="item.type=='62'">
 <div style="position:relative;line-height:1px;">
-  <instantad-video :item-data=item :preview=true v-on:imageload="imageload" v-on:selectitem="selectItem"></instantad-video>
+  <instantad-video :item-data=item :preview=true v-on:videoload="imageload" v-on:selectitem="selectItem"></instantad-video>
   <div v-show="!isThumb" class="close" @click="deleteItem(item.id)">X</div>
 </div>
 </template>
@@ -60,7 +60,7 @@ export default {
     // console.log(this.page_data);
   },
   created: function() {
-    console.log(this.pageData);
+    // console.log(this.pageData);
   },
   methods: {
     tellDataManager: function(item_id, data) {

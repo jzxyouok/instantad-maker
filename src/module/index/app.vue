@@ -35,7 +35,7 @@
 					<div class="content" id="content">
 							<div>页面编辑</div>
 							<div id="editpage_panel">
-								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page" v-on:propertychange="propertyChange" v-on:selectitem="selectItem" v-on:deleteitem="deleteItem"></page-panel>
+								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page" v-on:propertychange="propertyChange" v-on:selectitem="selectItem" v-on:deleteitem="deleteItem" v-on:addvideo="addVideo"></page-panel>
 							</div>
 					</div>
 					<div class="rightside">
@@ -89,7 +89,7 @@ export default {
 			global_config: {
 				cur_page: 0,
 				cur_item: {},
-				options:{}
+				options: {}
 			},
 			proj_data: {
 				adCanvasInfo: {
@@ -158,16 +158,16 @@ export default {
 							localfile: src,
 							type: '41'
 						});
-						if (self.$data.global_config.cur_item && self.$data.global_config.cur_item.type==='101') {
-						    if(item_data.type === '41') {
-						      self.addItem(item_data, self.$data.global_config.cur_item.id);
-						    }
-						//       item_data.id = globalData.upload_id;
-						//       DataManager.setCurrItem(globalData.upload_id,item_data);
-						//     }
+						if (self.$data.global_config.cur_item && self.$data.global_config.cur_item.type === '101') {
+							if (item_data.type === '41') {
+								self.addItem(item_data, self.$data.global_config.cur_item.id);
+							}
+							//       item_data.id = globalData.upload_id;
+							//       DataManager.setCurrItem(globalData.upload_id,item_data);
+							//     }
 						} else {
 							self.addItem(item_data);
-						// this.$emit('addItem', item_data);
+							// this.$emit('addItem', item_data);
 						}
 						// upinput.file = '';
 						// console.log(upinput);
@@ -180,6 +180,47 @@ export default {
 			}
 		});
 
+
+		Lib.$('#upload-file-video').on('change',function(evt) {
+		  var file = evt.target.files[0];
+			var upinput = Lib.$(evt.target);
+		  // var compEl = $('#' + globalData.cur_compId);
+		  if (file) {
+		    console.log(file);
+		    //TODO:校验 图片大小是否符合要求
+		    if (file.size > 3000000) alert('上传的文件过大');
+		    else {
+		      var reader = new FileReader();
+		      reader.readAsDataURL(file); // 读取文件
+
+		      // 渲染文件
+		      reader.onload = function(arg) {
+		        var src = arg.target.result;
+		        var item_data = {
+		            id: 'comp_' + Lib.C.geneId(),
+		            paddingBottom: '0',
+		            paddingLeft: '0',
+		            paddingTop: '0',
+		            paddingRight: '0'
+		        };
+		        item_data = Lib.$.extend(item_data, {
+		            videoWidth: 750 + '',
+		            videoHeight: 'auto',
+		            videoUrl: './resource/' + file.name,
+		            localfile: src,
+		            videoVid:'',
+		            type: '62'
+		        });
+						if (self.$data.global_config.cur_item && self.$data.global_config.cur_item.type === '62') {
+								self.replaceItem(self.$data.global_config.cur_item.id,item_data);
+						}
+						upinput.replaceWith(upinput.val('').clone(true));
+		        // UploadManager.upload(file, arg);
+		      }
+
+		    }
+		  }
+		});
 	},
 	methods: {
 		addPage: function() {
@@ -283,23 +324,28 @@ export default {
 					console.log(val.id === item_id);
 					return val.id === item_id;
 				});
+				if (!Lib._.isEmpty(ret)) {
+					console.log(ret);
+					break;
+				}
 				// console.log(ret);
 			}
-			if(ret) {
+			if (ret) {
 				return ret[0];
-			} return ret;
+			}
+			return ret;
 		},
-		replaceItem:function(item_id,item_data) {
+		replaceItem: function(item_id, item_data) {
 			var data = this.$data.proj_data.adCanvasInfo.PageList.Page;
 			for (var i = 0; i < data.length; i++) {
 				var cur_page_data = data[i].componentItemList.componentItem;
 				// console.log(cur_page_data);
-				for(var j=cur_page_data.length-1;j>=0;j--) {
-					if(cur_page_data[j].id === item_id) {
-						if(item_data) {
-							cur_page_data.splice(j,1,item_data);
+				for (var j = cur_page_data.length - 1; j >= 0; j--) {
+					if (cur_page_data[j].id === item_id) {
+						if (item_data) {
+							cur_page_data.splice(j, 1, item_data);
 						} else {
-							cur_page_data.splice(j,1);
+							cur_page_data.splice(j, 1);
 						}
 						break;
 					}
@@ -307,34 +353,40 @@ export default {
 			}
 		},
 		propertyChange: function(item_id, width, height) {
-			console.log(item_id);
+			// console.log(item_id,width,height);
 			var item_data = this.getItem(item_id);
-			console.log(item_data);
 			if (item_data && item_data.type === '41') {
 				item_data.imageWidth = width * 2;
 				item_data.imageHeight = height * 2;
+			} else if(item_data && item_data.type === '62') {
+				item_data.videoWidth = width * 2;
+				item_data.videoHeight = height * 2;
 			}
 		},
-		itemChange:function(item_id,item_data) {
-			this.replaceItem(item_id,item_data);
+		itemChange: function(item_id, item_data) {
+			this.replaceItem(item_id, item_data);
 			this.selectItem(item_id);
 		},
-		deleteItem:function(item_id) {
-			this.replaceItem(item_id,null);
+		deleteItem: function(item_id) {
+			this.replaceItem(item_id, null);
 		},
-		clearProperty:function() {
+		clearProperty: function() {
 			this.$data.global_config.cur_item = this.$data.proj_data.adCanvasInfo.PageList.Page[this.$data.global_config.cur_page];
 		},
 		selectItem: function(item_id) {
 			// alert(item_id);
 			var data = this.getItem(item_id);
-			if(data) {
+			console.log(data);
+			if (data) {
 				console.log(data);
 				this.$data.global_config.cur_item = data;
 				this.$data.global_config.options = Lib._.pick(Lib.C.items, Lib.C
-						.availChangeList[
-								data.type])
+					.availChangeList[
+						data.type])
 			}
+		},
+		addVideo:function(item_data) {
+			this.addItem(item_data);
 		}
 	}
 

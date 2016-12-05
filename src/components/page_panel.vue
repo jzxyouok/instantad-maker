@@ -36,7 +36,7 @@ export default {
   },
 
   created: function() {
-    console.log('page_panel created', this.pageList);
+    // console.log('page_panel created', this.pageList);
     // console.log(Lib.$('#upload-file-image'));
   },
   mounted: function() {
@@ -56,8 +56,8 @@ export default {
         var item_list = self.pageList[self.curPage].componentItemList
           .componentItem;
         for (var i = 0; i < item_list.length; i++) {
-          console.log(item_list[i].imageHeight, item_list[
-            i].videoHeight);
+          // console.log(item_list[i].imageHeight, item_list[
+          //   i].videoHeight);
           if (!isNaN(parseInt(item_list[i].videoHeight))) {
             var videoHeight = parseInt(item_list[i].videoHeight);
           } else {
@@ -66,7 +66,7 @@ export default {
           top += item_list[i].imageHeight || videoHeight * 2;
         }
       }
-      console.log(top);
+      // console.log(top);
       return {
         top: top / 2 + 'px',
         opacity: (top > 1320 ? 0 : 1),
@@ -109,6 +109,7 @@ export default {
         videoVid: '',
         type: '62'
       });
+      this.$emit('addvideo',item_data);
     },
     imageLoad:function(id,width,height) {
       console.log(id,width,height);

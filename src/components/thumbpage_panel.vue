@@ -55,7 +55,7 @@ export default {
     }
   },
   created: function() {
-    console.log(this.pageList);
+    // console.log(this.pageList);
   },
   mounted: function() {
     // _.each(this.page_list, function(val, index) {
