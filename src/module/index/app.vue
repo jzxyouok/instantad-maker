@@ -10,7 +10,7 @@
 									<button id="save" class="btn small" @click="saveProject">保存</button>
 									<button id="downloadzip" class="btn small">zip下载</button>
 									<button id="publish" class="btn small">在线预览</button>
-									<button id="setting" class="setting btn">
+									<button id="setting" class="btn small" @click="settingProject">设置</button>
 									</button>
 							</div>
 					</div>
@@ -88,7 +88,7 @@ export default {
 			global_config: {
 				cur_page: 0,
 				cur_item: {},
-				user:'',
+				user: '',
 				options: {}
 			},
 			proj_data: {
@@ -173,7 +173,7 @@ export default {
 						// console.log(upinput);
 						// $(upinput).val('');
 						upinput.replaceWith(upinput.val('').clone(true));
-						Lib.UploadManager.upload(file, arg,self.$data.global_config.user);
+						Lib.UploadManager.upload(file, arg, self.$data.global_config.user);
 						// UploadManager.upload(file, arg);
 					}
 
@@ -182,46 +182,46 @@ export default {
 		});
 
 
-		Lib.$('#upload-file-video').on('change',function(evt) {
-		  var file = evt.target.files[0];
+		Lib.$('#upload-file-video').on('change', function(evt) {
+			var file = evt.target.files[0];
 			var upinput = Lib.$(evt.target);
-		  // var compEl = $('#' + globalData.cur_compId);
-		  if (file) {
-		    console.log(file);
-		    //TODO:校验 图片大小是否符合要求
-		    if (file.size > 3000000) alert('上传的文件过大');
-		    else {
-		      var reader = new FileReader();
-		      reader.readAsDataURL(file); // 读取文件
+			// var compEl = $('#' + globalData.cur_compId);
+			if (file) {
+				console.log(file);
+				//TODO:校验 图片大小是否符合要求
+				if (file.size > 3000000) alert('上传的文件过大');
+				else {
+					var reader = new FileReader();
+					reader.readAsDataURL(file); // 读取文件
 
-		      // 渲染文件
-		      reader.onload = function(arg) {
-		        var src = arg.target.result;
-		        var item_data = {
-		            id: 'comp_' + Lib.C.geneId(),
-		            paddingBottom: '0',
-		            paddingLeft: '0',
-		            paddingTop: '0',
-		            paddingRight: '0'
-		        };
-		        item_data = Lib.$.extend(item_data, {
-		            videoWidth: 750 + '',
-		            videoHeight: 'auto',
-		            videoUrl: './resource/' + file.name,
-		            localfile: src,
-		            videoVid:'',
-		            type: '62'
-		        });
+					// 渲染文件
+					reader.onload = function(arg) {
+						var src = arg.target.result;
+						var item_data = {
+							id: 'comp_' + Lib.C.geneId(),
+							paddingBottom: '0',
+							paddingLeft: '0',
+							paddingTop: '0',
+							paddingRight: '0'
+						};
+						item_data = Lib.$.extend(item_data, {
+							videoWidth: 750 + '',
+							videoHeight: 'auto',
+							videoUrl: './resource/' + file.name,
+							localfile: src,
+							videoVid: '',
+							type: '62'
+						});
 						if (self.$data.global_config.cur_item && self.$data.global_config.cur_item.type === '62') {
-								self.replaceItem(self.$data.global_config.cur_item.id,item_data);
+							self.replaceItem(self.$data.global_config.cur_item.id, item_data);
 						}
 						upinput.replaceWith(upinput.val('').clone(true));
-						Lib.UploadManager.upload(file, arg,self.$data.global_config.user);
-		        // UploadManager.upload(file, arg);
-		      }
+						Lib.UploadManager.upload(file, arg, self.$data.global_config.user);
+						// UploadManager.upload(file, arg);
+					}
 
-		    }
-		  }
+				}
+			}
 		});
 		Lib.$.ajax({
 			url: '/api/userinfo',
@@ -255,13 +255,13 @@ export default {
 			this.$data.global_config.cur_page += 1;
 			//改变数据后，不能马上切换坐标
 			Lib._.delay(function() {
-				Lib.$('#content').scrollTop(self.$data.global_config.cur_page * (667*0.8 + 10));
+				Lib.$('#content').scrollTop(self.$data.global_config.cur_page * (667 * 0.8 + 10));
 			}, 200);
 			this.clearProperty();
 		},
 		setPage: function(key) {
 			this.$data.global_config.cur_page = key;
-			Lib.$('#content').scrollTop(key * (667*0.8 + 10));
+			Lib.$('#content').scrollTop(key * (667 * 0.8 + 10));
 			this.clearProperty();
 		},
 		deletePage: function(key) {
@@ -292,54 +292,6 @@ export default {
 			}
 			// console.log(inst_thumbpage.$data.page_list === inst_pagepanel.$data
 			//     .page_list);
-		},
-		saveProject: function() {
-			var fetchData = function(data) {
-				//删除所有local_file字段
-				var ret = data;
-				var self = this;
-				_.each(ret, function(val, key) {
-					// console.log(key, val);
-					if (_.isObject(val)) {
-						ret[key] = fetchData(val);
-					}
-					if (key === 'localfile') {
-						delete ret[key];
-					}
-					if (key === 'type' && val === '21') {
-						ret['btnHeight'] = ret['imageHeight'];
-						ret['btnWidth'] = ret['imageWidth'];
-						ret['btnSrc'] = ret['pureImageUrl'];
-						console.log(ret['btnJumpUrl']);
-						ret['btnJumpUrl'] = ret['btnJumpUrl'].indexOf('tad_canvas') === 0 ? ret['btnJumpUrl'].substr(0, 18) + encodeURIComponent(ret['btnJumpUrl'].substr(18)) : "tad_canvas://jump?" + encodeURIComponent(ret['btnJumpUrl']);
-					}
-				});
-				return ret;
-			}
-			var form_data = new FormData();
-			form_data.append('action', 'savedata');
-			form_data.append('proj_name',this.$data.global_config.user);
-			form_data.append('pagedata', JSON.stringify(fetchData(this.$data.proj_data)));
-			// console.log(JSON.stringify(fetchData(this.$data.proj_data)));
-			Lib.$.ajax({
-					type: 'post',
-					url: 'http://x.addev.com/instantad/proj.php',
-					dataType: 'json',
-					crossdomain: true,
-					processData: false,
-					contentType: false,
-					data: form_data,
-					success: function(msg) {
-							// console.log(msg);
-							if (msg.err === 0) {
-									// LocalDB.save(ret);
-									console.log('保存成功');
-							}
-					},
-					fail: function(msg) {
-							console.log(msg);
-					}
-			});
 		},
 		getPageData: function(page_num) {
 			var data = this.$data.proj_data.adCanvasInfo.PageList.Page[page_num];
@@ -400,7 +352,7 @@ export default {
 			if (item_data && item_data.type === '41') {
 				item_data.imageWidth = width * 2;
 				item_data.imageHeight = height * 2;
-			} else if(item_data && item_data.type === '62') {
+			} else if (item_data && item_data.type === '62') {
 				item_data.videoWidth = width * 2;
 				item_data.videoHeight = height * 2;
 			}
@@ -427,8 +379,60 @@ export default {
 						data.type])
 			}
 		},
-		addVideo:function(item_data) {
+		addVideo: function(item_data) {
 			this.addItem(item_data);
+		},
+		saveProject: function() {
+			var fetchData = function(data) {
+				//删除所有local_file字段
+				var ret = data;
+				var self = this;
+				_.each(ret, function(val, key) {
+					// console.log(key, val);
+					if (_.isObject(val)) {
+						ret[key] = fetchData(val);
+					}
+					if (key === 'localfile') {
+						delete ret[key];
+					}
+					if (key === 'type' && val === '21') {
+						ret['btnHeight'] = ret['imageHeight'];
+						ret['btnWidth'] = ret['imageWidth'];
+						ret['btnSrc'] = ret['pureImageUrl'];
+						console.log(ret['btnJumpUrl']);
+						ret['btnJumpUrl'] = ret['btnJumpUrl'].indexOf('tad_canvas') === 0 ? ret['btnJumpUrl'].substr(0, 18) + encodeURIComponent(ret['btnJumpUrl'].substr(18)) : "tad_canvas://jump?" + encodeURIComponent(ret['btnJumpUrl']);
+					}
+				});
+				return ret;
+			}
+			var form_data = new FormData();
+			form_data.append('action', 'savedata');
+			form_data.append('proj_name', this.$data.global_config.user);
+			form_data.append('pagedata', JSON.stringify(fetchData(this.$data.proj_data)));
+			// console.log(JSON.stringify(fetchData(this.$data.proj_data)));
+			Lib.$.ajax({
+				type: 'post',
+				url: 'http://x.addev.com/instantad/proj.php',
+				dataType: 'json',
+				crossdomain: true,
+				processData: false,
+				contentType: false,
+				data: form_data,
+				success: function(msg) {
+					// console.log(msg);
+					if (msg.err === 0) {
+						// LocalDB.save(ret);
+						console.log('保存成功');
+					}
+				},
+				fail: function(msg) {
+					console.log(msg);
+				}
+			});
+		},
+		settingProject: function() {
+			//
+			console.log('settingProject');
 		}
 	}
 
