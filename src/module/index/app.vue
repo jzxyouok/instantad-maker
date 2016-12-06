@@ -57,7 +57,29 @@
 			margin-bottom:10px;
 		}
 	</style>
-	<div id="proj_setting_wrapper" class="panel setting_panel"><div id="proj_setting"></div></div>
+	<div id="proj_setting_wrapper" class="panel setting_panel">
+		<div id="proj_setting">
+			<div>设置<div>
+					<ul>
+							<li><span class="form_field">项目名称：</span>{{proj_setting.proj_name}}</li>
+							<li><span class="form_field">标题：</span><input type="text" v-model="proj_setting.title" /></li>
+							<li><span class="form_field">页面标题：</span><input type="text" v-model="proj_setting.navTitle" /></li>
+							<li><span class="form_field">信息流图片：</span>
+							<img :src="proj_setting.resource_url0" style="height:50px;width:auto;"/>
+							(640x246)</li>
+							<li><span class="form_field">摘要：</span><input type="text" v-model="proj_setting.abstract" /></li>
+							<li><span class="form_field">分享缩略图：</span>
+							<img :src="proj_setting.thumbnails" style="height:50px;width:auto;"/>
+							(114x114)</li>
+							<li><span class="form_field">canvas头图：</span>
+							<img :src="proj_setting.canvasCover" style="height:100px;width:auto;"/>
+							(750x1334)</li>
+							<!--<li><span class="form_field">canvas压缩包：</span>{{proj_data.canvasZip}}</li>-->
+							<li><span class="form_field">落地页地址：</span><input type="text" v-model="proj_setting.url" /></li>
+					</ul>
+			</div><div class="close" @click="closeSetting">X</div></div>
+		</div>
+	</div>
 	<div id="qrcode" class="setting_panel" style="width:160px;height:160px;"></div>
 </template>
 
@@ -125,7 +147,16 @@ export default {
 				source: '',
 				verify: 0
 			},
-			proj_setting: {}
+			proj_setting: {
+				proj_name:'',
+				title:'测试用标题',
+				navTitle:'导航标题',
+				abstract:'分享到朋友圈等摘要说明',
+				url:'http://adnew.qq.com/instantad/proj/instantad_jackyqi_20161202/',
+				resource_url0:'http://x.addev.com/instantad/res/feed.png',
+				thumbnails:'http://x.addev.com/instantad/res/thumb.png',
+				canvasCover:'http://x.addev.com/instantad/res/cover.png'
+			}
 		}
 		this.$data.global_config.cur_item = this.$data.proj_data.adCanvasInfo.PageList.Page[0];
 		//初始化上传组件
@@ -423,6 +454,7 @@ export default {
 					if (msg.err === 0) {
 						// LocalDB.save(ret);
 						console.log('保存成功');
+						alert('保存成功');
 					}
 				},
 				fail: function(msg) {
@@ -433,6 +465,10 @@ export default {
 		settingProject: function() {
 			//
 			console.log('settingProject');
+			Lib.$('#proj_setting_wrapper').addClass('active');
+		},
+		closeSetting:function() {
+			Lib.$('#proj_setting_wrapper').removeClass('active');
 		}
 	}
 
