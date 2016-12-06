@@ -2,7 +2,7 @@
 	<div class="wrapper">
 			<div class="header">
 					<div class="logo">
-							InstantAD_v0.2.0
+							InstantAD_v0.9.0
 							<br> alpha
 					</div>
 					<div class="operation">
@@ -259,7 +259,7 @@ export default {
 			type: 'get',
 			success: function(ret) {
 				if (ret.user) {
-					this.$data.global_config.user = ret.user;
+					self.$data.global_config.user = ret.user;
 				} else {
 					if (ret.err == 1) {
 						window.location.href = 'http://passport.oa.com/modules/passport/signin.ashx?url=' + encodeURIComponent('http://x.addev.com/instantad/');
@@ -270,7 +270,9 @@ export default {
 				alert('Get UserInfo Error');
 			}
 		});
-		this.$data.global_config.user = 'jackyqi';
+		if(window.location.host !== 'x.addev.com') {
+			self.$data.global_config.user = 'jackyqi';
+		}
 	},
 	methods: {
 		addPage: function() {
