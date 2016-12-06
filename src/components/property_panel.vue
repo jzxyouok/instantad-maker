@@ -18,6 +18,7 @@
     <div v-show="itemData && itemData.componentItemList">
     <div style="display:none;">{{itemData}}</div>
     <div>背景色：<input type="text" v-model="itemData.backgroundColor" /></div>
+    <div id="qrcode"><img style="width:160px;height:160px;" src="../../static/qrcode.png" /></div>
     </div>
   </div>
 </template>

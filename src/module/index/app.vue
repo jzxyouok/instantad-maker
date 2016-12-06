@@ -7,10 +7,10 @@
 					</div>
 					<div class="operation">
 							<div>
-									<button id="save" class="btn small" @click="saveProject">保存</button>
-									<button id="downloadzip" class="btn small">zip下载</button>
-									<button id="publish" class="btn small">在线预览</button>
-									<button id="setting" class="btn small" @click="settingProject">设置</button>
+									<button id="save" class="btn small" @click="actionSave">保存</button>
+									<button id="downloadzip" class="btn small" @click="actionDownload">zip下载</button>
+									<button id="publish" class="btn small" @click="actionPreview">在线预览</button>
+									<button id="setting" class="btn small" @click="actionSetting">设置</button>
 									</button>
 							</div>
 					</div>
@@ -148,14 +148,14 @@ export default {
 				verify: 0
 			},
 			proj_setting: {
-				proj_name:'',
-				title:'测试用标题',
-				navTitle:'导航标题',
-				abstract:'分享到朋友圈等摘要说明',
-				url:'http://adnew.qq.com/instantad/proj/instantad_jackyqi_20161202/',
-				resource_url0:'http://x.addev.com/instantad/res/feed.png',
-				thumbnails:'http://x.addev.com/instantad/res/thumb.png',
-				canvasCover:'http://x.addev.com/instantad/res/cover.png'
+				proj_name: '',
+				title: '测试用标题',
+				navTitle: '导航标题',
+				abstract: '分享到朋友圈等摘要说明',
+				url: 'http://adnew.qq.com/instantad/proj/instantad_jackyqi_20161202/',
+				resource_url0: 'http://x.addev.com/instantad/res/feed.png',
+				thumbnails: 'http://x.addev.com/instantad/res/thumb.png',
+				canvasCover: 'http://x.addev.com/instantad/res/cover.png'
 			}
 		}
 		this.$data.global_config.cur_item = this.$data.proj_data.adCanvasInfo.PageList.Page[0];
@@ -394,6 +394,7 @@ export default {
 		},
 		deleteItem: function(item_id) {
 			this.replaceItem(item_id, null);
+			this.clearProperty();
 		},
 		clearProperty: function() {
 			this.$data.global_config.cur_item = this.$data.proj_data.adCanvasInfo.PageList.Page[this.$data.global_config.cur_page];
@@ -413,7 +414,10 @@ export default {
 		addVideo: function(item_data) {
 			this.addItem(item_data);
 		},
-		saveProject: function() {
+		actionSave: function(evt) {
+			this.saveProject();
+		},
+		saveProject: function(callback) {
 			var fetchData = function(data) {
 				//删除所有local_file字段
 				var ret = data;
@@ -454,7 +458,12 @@ export default {
 					if (msg.err === 0) {
 						// LocalDB.save(ret);
 						console.log('保存成功');
-						alert('保存成功');
+						console.log(callback);
+						if (callback) {
+							callback();
+						} else {
+							alert('保存成功');
+						}
 					}
 				},
 				fail: function(msg) {
@@ -462,13 +471,48 @@ export default {
 				}
 			});
 		},
-		settingProject: function() {
-			//
-			console.log('settingProject');
+		actionSetting: function(evt) {
+			console.log('actionSetting');
 			Lib.$('#proj_setting_wrapper').addClass('active');
 		},
-		closeSetting:function() {
+		closeSetting: function() {
 			Lib.$('#proj_setting_wrapper').removeClass('active');
+		},
+		actionDownload: function(evt) {
+			var self = this;
+			this.saveProject(function() {
+				window.location.href = 'http://x.addev.com/instantad/proj.php?action=download&proj_name=' + self.$data.global_config.user;
+			});
+		},
+		actionPreview: function(evt) {
+			var self = this;
+			var form_data = new FormData();
+			form_data.append('action', 'publish');
+			form_data.append('proj_name', self.$data.global_config.user);
+			form_data.append('title',self.$data.proj_setting.title);
+			form_data.append('navTitle',self.$data.proj_setting.navTitle);
+			form_data.append('abstract',self.$data.proj_setting.abstract);
+			form_data.append('url',self.$data.proj_setting.url);
+			// console.log(form_data.values());
+			Lib.$.ajax({
+					type: 'post',
+					url: 'http://x.addev.com/instantad/proj.php',
+					dataType: 'json',
+					crossdomain: true,
+					processData: false,
+					contentType: false,
+					data: form_data,
+					success: function(msg) {
+							if (msg.code === 0) {
+									console.log('发布成功');
+									alert('发布成功，可以预览');
+									// showQrcode();
+							}
+					},
+					fail: function(msg) {
+							console.log(msg);
+					}
+			});
 		}
 	}
 
