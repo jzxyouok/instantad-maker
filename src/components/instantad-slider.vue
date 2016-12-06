@@ -4,7 +4,7 @@
       <instantad-image :item-data="value.componentItem" :preview="true"></instantad-image>
     </div>
     <div v-show="!property">
-      <instantad-image :item-data="items[0].componentItem" :preview=true v-on:selectFocus="selectItem"></instantad-image>
+      <instantad-image :item-data="items[0].componentItem" :preview=true v-on:selectitem="selectItem"></instantad-image>
     </div>
     <div v-show="!isThumb" class="slider_wrapper">
       <span class="slide_point current"></span><span class="slide_point"></span>
@@ -45,7 +45,8 @@ module.exports = {
     },
     selectItem: function(item_id) {
       // console.log(item_id);
-      this.tellDataManager(item_id);
+      // this.tellDataManager(item_id);
+      this.$emit('selectitem',item_id);
     },
     uploadfile: function() {
       Lib.$('#upload-file-image')

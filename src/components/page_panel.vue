@@ -88,6 +88,7 @@ export default {
     },
     uploadImage: function() {
       //上传图片
+      this.$emit('uploadimage');
       Lib.$('#upload-file-image')
         .trigger('click');
     },

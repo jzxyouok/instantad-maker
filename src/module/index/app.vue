@@ -34,7 +34,7 @@
 					</div>
 					<div class="content" id="content" @click="clearProperty">
 							<div id="editpage_panel">
-								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page" v-on:propertychange="propertyChange" v-on:selectitem="selectItem" v-on:deleteitem="deleteItem" v-on:addvideo="addVideo"></page-panel>
+								<page-panel :page-list="proj_data.adCanvasInfo.PageList.Page" :cur-page="global_config.cur_page" v-on:propertychange="propertyChange" v-on:selectitem="selectItem" v-on:deleteitem="deleteItem" v-on:addvideo="addVideo" v-on:uploadimage="clearProperty"></page-panel>
 							</div>
 					</div>
 					<div class="rightside">
