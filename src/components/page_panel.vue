@@ -93,6 +93,7 @@ export default {
         .trigger('click');
     },
     addEmptyComponent: function() {
+      this.$emit('uploadimage');
       //添加一个空组件
       // console.log(this.top);
       var item_data = {
